@@ -72,12 +72,6 @@ section h2 { text-align: center; margin-bottom: 40px; font-size: 2em; color: var
 .main-nav a { text-decoration: none; color: var(--text-color); font-weight: 500; }
 .nav-toggle { display: none; /* For mobile */ }
 
-/* --- Hero Section --- */
-.hero-section { text-align: center; padding: 80px 0; }
-.hero-section h1 { font-size: 3em; color: var(--heading-color); margin-bottom: 10px; }
-.hero-section .subtitle { font-size: 1.2em; max-width: 600px; margin: 0 auto 30px; }
-.cta-buttons { display: flex; justify-content: center; gap: 15px; }
-
 /* --- Value Props --- */
 .value-props-section .container { display: grid; gap: 20px; }
 .prop-tile { text-align: center; }
