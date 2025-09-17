@@ -72,34 +72,26 @@ section h2 { text-align: center; margin-bottom: 40px; font-size: 2em; color: var
 .main-nav a { text-decoration: none; color: var(--text-color); font-weight: 500; }
 .nav-toggle { display: none; /* For mobile */ }
 
-/* --- New Hero Block Styles (Updated for Responsive Images) --- */
+/* --- New Hero Block Styles (Updated for Full Screen) --- */
 
 .hero-section-new {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 60vh;
+    min-height: 70vh; /* A good height for mobile screens */
     padding: 60px 20px;
     text-align: center;
     color: var(--white);
     background-size: cover;
     background-position: center;
-
-    /* MOBILE-FIRST APPROACH: 
-      Set the mobile background by default.
-      Replace 'images/hero-background-mobile.jpg' with the actual path to your mobile image.
-    */
     background-image: linear-gradient(rgba(10, 25, 47, 0.7), rgba(10, 25, 47, 0.7)), url('../images/hero-background-mobile.jpg');
 }
 
-/* TABLET & DESKTOP: 
-  This media query applies only to screens 768px and wider.
-*/
+/* TABLET & DESKTOP: */
 @media (min-width: 768px) {
     .hero-section-new {
-        /* Replace 'images/hero-background-desktop.jpg' with the actual path to your desktop image.
-        */
+        min-height: 100vh; /* Makes it full-screen on larger devices */
         background-image: linear-gradient(rgba(10, 25, 47, 0.7), rgba(10, 25, 47, 0.7)), url('../images/hero-background-desktop.jpg');
     }
 }
