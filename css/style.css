@@ -72,92 +72,74 @@ section h2 { text-align: center; margin-bottom: 40px; font-size: 2em; color: var
 .main-nav a { text-decoration: none; color: var(--text-color); font-weight: 500; }
 .nav-toggle { display: none; /* For mobile */ }
 
-/* --- Minimal Hero Section Styles --- */
-.hero-minimal {
+/* --- Simplified Hero Section Styles --- */
+
+.hero-section {
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
     align-items: center;
     justify-content: center;
-    min-height: 100vh; /* Full screen height */
-    text-align: center;
-    background-color: var(--white); /* Solid white background */
+    min-height: 100vh;
     padding: 20px;
-    overflow: hidden; /* Prevent text overflow */
-}
+    border: 10px solid #2c3e50;
+    text-align: center;
 
-.hero-content-minimal {
-    position: relative;
-    z-index: 1; /* Ensure content is above any potential background elements */
-}
-
-.hero-minimal .main-heading {
-    font-size: 5.5em; /* Very large font size */
-    font-weight: 900; /* Extra bold */
-    line-height: 1;
-    margin-bottom: 0px; /* Close gap between main and sub heading */
-    color: transparent; /* Make text transparent to show background */
-    -webkit-background-clip: text; /* Clip background to text shape */
-    background-clip: text;
-    background-image: linear-gradient(to right, #001f3f, #007bff, #3c82d4); /* Blue gradient for text */
-    /* You could also use a texture image here for the text background: */
-    /* background-image: url('../images/text-texture.jpg'); */
+    /* --- Mobile Background Image (Default) --- */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/hero-background-mobile.jpg');
     background-size: cover;
     background-position: center;
-    white-space: nowrap; /* Prevent "One Platform" from wrapping */
 }
 
-.hero-minimal .sub-heading {
-    font-size: 2.5em; /* Large sub-heading */
-    font-weight: 400; /* Lighter weight */
-    color: #444; /* Darker grey */
-    letter-spacing: 0.15em; /* Spaced out letters */
-    margin-top: 10px; /* Small gap from main heading */
-    margin-bottom: 50px; /* Space above button */
-    white-space: nowrap; /* Prevent "Endless Possibilities" from wrapping */
+/* Text Styles */
+.main-heading {
+    font-size: 5.5em;
+    font-weight: 900;
+    line-height: 1;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: linear-gradient(to right, #ffffff, #d3d3d3, #a9a9a9); /* White/Silver gradient */
+    white-space: nowrap;
 }
 
-.hero-minimal .btn-go {
-    background-color: #222; /* Dark button background */
-    color: var(--white);
+.sub-heading {
+    font-size: 2.5em;
+    font-weight: 400;
+    color: #f0f0f0; /* Light gray/white for readability */
+    letter-spacing: 0.15em;
+    margin: 10px 0 50px 0;
+    white-space: nowrap;
+}
+
+.btn-go {
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+    color: #111; /* Dark text */
     padding: 15px 40px;
     font-size: 1.2em;
-    font-weight: 600;
     border-radius: 5px;
+    text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease;
 }
 
-.hero-minimal .btn-go:hover {
-    background-color: #000;
-    transform: translateY(-2px);
+.btn-go:hover {
+    background-color: white;
 }
 
 
-/* Responsive adjustments for smaller screens */
-@media (max-width: 1024px) {
-    .hero-minimal .main-heading {
-        font-size: 4em;
-    }
-    .hero-minimal .sub-heading {
-        font-size: 2em;
+/* --- Responsive and Desktop Styles --- */
+@media (min-width: 768px) {
+    /* --- Desktop Background Image --- */
+    .hero-section {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/hero-background-desktop.jpg');
     }
 }
 
-@media (max-width: 767px) {
-    .hero-minimal .main-heading {
-        font-size: 2.8em;
-        white-space: normal; /* Allow wrapping on small screens */
+@media (max-width: 768px) {
+    .main-heading, .sub-heading {
+        white-space: normal; /* Allow text to wrap on mobile */
     }
-    .hero-minimal .sub-heading {
-        font-size: 1.4em;
-        letter-spacing: 0.1em;
-        white-space: normal; /* Allow wrapping on small screens */
-    }
-    .hero-minimal .btn-go {
-        padding: 12px 30px;
-        font-size: 1em;
-    }
+    .main-heading { font-size: 2.8em; }
+    .sub-heading { font-size: 1.4em; }
 }
 
 /* Adjust general body margin if the nav is fixed and you have scroll issues */
