@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://worksocial-india.github.io/Gemini-WorkSocial/sitemap.xml   
