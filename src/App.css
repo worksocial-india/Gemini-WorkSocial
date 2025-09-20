@@ -1,52 +1,17 @@
-/* --- Hero Section Styles --- */
-.hero {
-  display: flex;
-  flex: 1; /* This makes the hero fill the available space */
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 4rem 2rem;
-  
-  /* CORRECTED: This line fixes the background overlay and image */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/hero-background-mobile.jpg');
+/* Custom CSS for Hero Section Background (Responsive) */
+.hero-section-tailwind {
+  /* This adds a semi-transparent black layer on top of your image */
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/hero-background-mobile.jpg');
   background-size: cover;
-  background-position: center; 
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh; /* Changed from height to min-height for robustness */
 }
 
-.hero-headline {
-  font-size: 3.5rem;
-  color: var(--white); /* Change text color to white */
-  margin-bottom: 1rem;
-}
-
-.hero-subheadline {
-  font-size: 1.25rem;
-  max-width: 600px;
-  margin: 0 auto 2rem;
-  line-height: 1.6;
-  color: var(--white); /* Change text color to white */
-}
-
-.hero-button {
-  background-color: var(--primary-color);
-  color: var(--white);
-  border: none;
-  padding: 1rem 2.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.hero-button:hover {
-  background-color: #083b6b;
-  transform: translateY(-2px);
-}
-
-/* Add this media query for the desktop background */
+/* Desktop background */
 @media (min-width: 768px) {
-  .hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/hero-background-desktop.jpg');
+  .hero-section-tailwind {
+    /* This adds the same overlay to the desktop image */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/hero-background-desktop.jpg');
   }
 }

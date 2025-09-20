@@ -4,14 +4,14 @@ import './App.css';
 // --- Navbar Component ---
 function Navbar() {
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        <a href="/" className="navbar-logo">WorkSocial</a>
-        <ul className="nav-menu">
-          <li className="nav-item"><a href="/about" className="nav-link">About</a></li>
-          <li className="nav-item"><a href="/services" className="nav-link">Services</a></li>
-          <li className="nav-item"><a href="/contact" className="nav-link">Contact</a></li>
-        </ul>
+    <nav className="bg-white p-4 border-b fixed w-full top-0 z-10">
+      <div className="container mx-auto flex justify-between items-center">
+        <a href="#" className="text-2xl font-bold text-gray-800">WorkSocial</a>
+        <div className="hidden md:flex space-x-6">
+          <a href="#" className="text-gray-600 hover:text-blue-600">About</a>
+          <a href="#" className="text-gray-600 hover:text-blue-600">Services</a>
+          <a href="#" className="text-gray-600 hover:text-blue-600">Contact</a>
+        </div>
       </div>
     </nav>
   );
@@ -20,35 +20,50 @@ function Navbar() {
 // --- Hero Section Component ---
 function Hero() {
   return (
-    <section className="hero">
-      <div className="hero-container">
-        <h1 className="hero-headline">Build Your Future, Smarter.</h1>
-        <p className="hero-subheadline">Complex challenges require modern solutions. Let's create something amazing together.</p>
-        <button className="hero-button">Get Started</button>
+    // The main container with the background image
+    <section className="hero-section-tailwind min-h-screen border-[10px] border-gray-800">
+      {/* Flexbox container to create columns */}
+      <div className="flex h-full min-h-screen">
+        
+        {/* Left Column (empty spacer) */}
+        <div className="w-1/2">
+          {/* This side is intentionally left empty */}
+        </div>
+
+        {/* Right Column (for text and button) */}
+        <div className="w-1/2 flex flex-col items-center justify-center text-center p-8">
+          <h1 className="text-6xl md:text-8xl font-black main-heading-gradient leading-none">
+            One Platform
+          </h1>
+          <p className="text-3xl md:text-4xl text-white tracking-widest mt-2 mb-10">
+            Endless Possibilities
+          </p>
+          // Inside the Hero component in App.jsx
+<a 
+  href="/dashboard" // <-- Change this line
+  className="inline-block bg-black text-white font-semibold py-3 px-10 rounded-md uppercase hover:bg-gray-800 transition-colors text-lg"
+>
+  Let's Go
+</a>
+        </div>
+
       </div>
     </section>
   );
 }
 
-// --- Footer Component ---
-function Footer() {
-  return (
-    <footer className="footer">
-      <p>&copy; 2025 WorkSocial. All Rights Reserved.</p>
-    </footer>
-  );
-}
 
 // --- Main App Component ---
-// This brings all the other components together.
 function App() {
   return (
-    <div className="app-container">
+    <div>
       <Navbar />
       <Hero />
-      <Footer />
     </div>
   );
 }
 
+
+// --- The Missing Export Line ---
+// This line fixes the error.
 export default App;
