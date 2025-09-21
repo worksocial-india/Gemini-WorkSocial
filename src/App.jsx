@@ -1,12 +1,15 @@
 import React from 'react';
 import './App.css';
+import <WorkSocialLogo from './assets/logo.png'; // WorkSocial logo image
 
 // --- Navbar Component ---
 function Navbar() {
   return (
     <nav className="bg-white p-4 border-b fixed w-full top-0 z-10">
       <div className="container mx-auto flex justify-between items-center">
-        <a href="#" className="text-2xl font-bold text-gray-800">WorkSocial</a>
+        <a href="/" className="navbar-logo-container">
+          <img src={WorkSocialLogo} alt="WorkSocial Logo" className="h-8" />
+        </a>
         <div className="hidden md:flex space-x-6">
           <a href="#" className="text-gray-600 hover:text-blue-600">About</a>
           <a href="#" className="text-gray-600 hover:text-blue-600">Services</a>
