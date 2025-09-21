@@ -38,7 +38,7 @@ function Hero() {
           <p className="text-3xl md:text-4xl text-white tracking-widest mt-2 mb-10">
             Endless Possibilities
           </p>
-          // Inside the Hero component in App.jsx
+          {/* Inside the Hero component in App.jsx */}
 <a 
   href="/dashboard" // <-- Change this line
   className="inline-block bg-black text-white font-semibold py-3 px-10 rounded-md uppercase hover:bg-gray-800 transition-colors text-lg"
