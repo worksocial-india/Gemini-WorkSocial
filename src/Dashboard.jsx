@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Calculator, LineChart, Compass, Home, CreditCard, Shield, Receipt, TrendingUp, BookOpen, GraduationCap, Tag, Handshake, Users, Phone } from "lucide-react";
 
 function CardArt({ icon, imgSrc, alt }) {
@@ -14,8 +15,25 @@ function CardArt({ icon, imgSrc, alt }) {
   );
 }
 
-function WorkSocialLanding() {
-  // Drop 1:1 PNG/JPGs into /public/art and set imgSrc below to replace icons
+function Dashboard() {
+  const [showCta, setShowCta] = useState(false);
+  const [showColumns, setShowColumns] = useState(false);
+
+  useEffect(() => {
+    const ctaTimer = setTimeout(() => {
+      setShowCta(true);
+    }, 5000);
+
+    const columnsTimer = setTimeout(() => {
+      setShowColumns(true);
+    }, 10000);
+
+    return () => {
+      clearTimeout(ctaTimer);
+      clearTimeout(columnsTimer);
+    };
+  }, []);
+
   const cards = [
     {
       title: "Financial Calculators",
@@ -119,20 +137,50 @@ function WorkSocialLanding() {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-white to-slate-50 text-slate-900">
-
-
       {/* Hero */}
-      <section className="hero-section-tailwind min-h-screen -mt-16">
-        <div className="flex h-full min-h-screen">
-          <div className="w-full md:w-1/2"></div>
-          <div className="w-full md:w-2/5 flex flex-col items-center justify-center text-center p-8">
-            <h1 className="text-6xl md:text-8xl font-black main-heading-gradient leading-none">
-              One Platform
-            </h1>
-            <p className="text-3xl md:text-4xl text-white tracking-widest mt-2 mb-10">
-              Endless Possibilities
-            </p>
+      <section className="dashboard-hero-section min-h-screen -mt-16">
+        <div className="flex h-full min-h-screen items-stretch">
+          {showColumns ? (
+            <motion.div
+              className="w-full md:w-1/3 p-4 flex flex-col items-center justify-center"
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <img src="/images/homeloan-calculator.jpg" alt="Home Loan Calculator" className="w-full h-auto rounded-lg shadow-lg mb-4" />
+              <a href="/calculators/emi" className="bg-blue-900 text-white font-bold py-2 px-4 rounded hover:bg-blue-800 transition-colors">
+                Calculate Home Loan
+              </a>
+            </motion.div>
+          ) : (
+            <div className="w-full md:w-1/3 p-4"></div>
+          )}
+          <div className="w-full md:w-1/3 p-4 flex items-start justify-center">
+            <div className="w-full h-1/2">
+              <div className="bg-transparent p-4 rounded-lg">
+                <h2 className="text-6xl font-extrabold text-center mb-2 text-green-900" style={{ WebkitTextStroke: '1px #172554' }}>From a Small Seed, We Nurture Your Dreams into a Secure Future</h2>
+               <br/><br/><br/><br/><br/><br/><br/>
+                <p className="text-3xl font-bold text-center">
+                  Rooted in Trust, Growing with You.
+                </p>
+              </div>
+            </div>
           </div>
+          {showColumns ? (
+            <motion.div
+              className="w-full md:w-1/3 p-4 flex flex-col items-center justify-center"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <img src="/EMI-calculator.png" alt="EMI Calculator" className="w-full h-auto rounded-lg shadow-lg mb-4" />
+              <a href="/calculators/emi" className="bg-blue-900 text-white font-bold py-2 px-4 rounded hover:bg-blue-800 transition-colors">
+                Calculate EMI
+              </a>
+            </motion.div>
+          ) : (
+            <div className="w-full md:w-1/3 p-4"></div>
+          )}
         </div>
       </section>
 
@@ -184,8 +232,8 @@ function WorkSocialLanding() {
         <div className="mx-auto max-w-7xl px-4 py-6 text-sm text-slate-600 flex flex-col md:flex-row items-center justify-between gap-2">
           <div>© {new Date().getFullYear()} WorkSocial India • Clarity for borrowers</div>
           <div className="flex gap-4">
-            <a href="https://wa.me/919808462032" className="hover:underline">WhatsApp</a>
-            <a href="mailto:vipinnegi78200@gmail.com" className="hover:underline">Email</a>
+            <a href="https://wa.me/918882371688" className="hover:underline">WhatsApp</a>
+            <a href="mailto:hello@worksocial.org" className="hover:underline">Email</a>
             <a href="/privacy" className="hover:underline">Privacy & Disclaimers</a>
           </div>
         </div>
@@ -194,4 +242,4 @@ function WorkSocialLanding() {
   );
 }
 
-export default WorkSocialLanding;
+export default Dashboard;

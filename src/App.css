@@ -5,11 +5,11 @@
   background-clip: text;
   background-image: linear-gradient(
     to right, 
-    #0052d4, 
-    #4364f7, 
-    #6fb1fc, 
-    #4364f7, 
-    #0052d4
+    #0616f0, 
+    #bd4509, 
+    #0c51b1, 
+    #035b07, 
+    #6a065bbe
   );
   background-size: 200% auto;
   animation: move-sky 10s linear infinite;
@@ -27,8 +27,8 @@
 /* Responsive Background Image for the Hero Section */
 .hero-section-tailwind {
   background-image: url('/hero-background-mobile.jpg');
-  background-size: cover;
-  background-position: top;
+  background-size: contain;
+  background-position: center;
   background-repeat: no-repeat;
   min-height: 100vh;
 }
@@ -37,4 +37,11 @@
   .hero-section-tailwind {
     background-image: url('/hero-background-desktop.jpg');
   }
+}
+
+.dashboard-hero-section {
+  background-image: url('/dashboard-hero-desktop.jpg');
+  background-size: auto;
+  background-position: center;
+  background-repeat: no-repeat;
 }

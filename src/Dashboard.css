@@ -50,6 +50,12 @@
   color: #0a4d8d;
 }
 
+.dashboard-hero-section {
+    background-image: url('/dashboard-hero-desktop.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
 /* Responsive adjustments for mobile */
 @media (max-width: 768px) {
   .dashboard-grid {
