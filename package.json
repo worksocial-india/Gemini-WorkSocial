@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@vercel/speed-insights": "^1.2.0",
+    "chart": "^0.1.2",
+    "chart.js": "^4.5.0",
+    "framer-motion": "^12.23.21",
     "lucide-react": "^0.544.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

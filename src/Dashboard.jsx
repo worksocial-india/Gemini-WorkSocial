@@ -1,13 +1,14 @@
 import React from "react";
 import { Calculator, LineChart, Compass, Home, CreditCard, Shield, Receipt, TrendingUp, BookOpen, GraduationCap, Tag, Handshake, Users, Phone } from "lucide-react";
 
-function CardArt({ icon: IconComponent, imgSrc, alt }) {
+function CardArt({ icon, imgSrc, alt }) {
+  const Icon = icon;
   return (
     <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-700 text-white grid place-items-center shadow-sm overflow-hidden">
       {imgSrc ? (
         <img src={imgSrc} alt={alt} className="h-full w-full object-cover" />
       ) : (
-        <IconComponent className="h-6 w-6" aria-hidden />
+        <Icon className="h-6 w-6" aria-hidden />
       )}
     </div>
   );
@@ -116,62 +117,21 @@ function WorkSocialLanding() {
     },
   ];
 
-  const quickPicks = [
-    { label: "Home‑Loan EMI", href: "/calculators/finance/emi" },
-    { label: "Eligibility by Income", href: "/calculators/finance/eligibility-income" },
-    { label: "Eligibility by Property (LTV)", href: "/calculators/finance/eligibility-ltv" },
-    { label: "Part‑Payment Impact", href: "/calculators/finance/part-payment" },
-    { label: "SIP Calculator", href: "/calculators/investment/sip" },
-  ];
-
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-white to-slate-50 text-slate-900">
-      {/* Header */}
-      <header className="border-b border-slate-200 bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-30">
-        <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-2xl bg-slate-900 text-white grid place-items-center text-lg shadow">WS</div>
-            <div className="font-semibold">WorkSocial India</div>
-          </div>
-          <nav className="hidden md:flex gap-6 text-sm">
-            <a href="#cards" className="hover:underline">Explore</a>
-            <a href="/calculators/finance" className="hover:underline">Calculators</a>
-            <a href="/knowledge" className="hover:underline">Knowledge</a>
-            <a href="/contact" className="hover:underline">Contact</a>
-          </nav>
-        </div>
-      </header>
+
 
       {/* Hero */}
-      <section className="mx-auto max-w-7xl px-4 pt-10 pb-6">
-        <div className="grid md:grid-cols-2 gap-6 items-center">
-          <div>
-            <h1 className="text-3xl md:text-5xl font-bold leading-tight">Welcome to WorkSocial India</h1>
-            <p className="mt-3 text-slate-600 max-w-prose">
-              Advisory, calculators, and playbooks built for India. Navigate home loans, investments, property, and travel with clarity.
+      <section className="hero-section-tailwind min-h-screen -mt-16">
+        <div className="flex h-full min-h-screen">
+          <div className="w-full md:w-1/2"></div>
+          <div className="w-full md:w-2/5 flex flex-col items-center justify-center text-center p-8">
+            <h1 className="text-6xl md:text-8xl font-black main-heading-gradient leading-none">
+              One Platform
+            </h1>
+            <p className="text-3xl md:text-4xl text-white tracking-widest mt-2 mb-10">
+              Endless Possibilities
             </p>
-            <div className="mt-5 flex flex-col sm:flex-row gap-3">
-              <a href="/calculators/finance" className="inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm font-medium shadow-sm bg-slate-900 text-white hover:bg-slate-800">
-                Open Calculators
-              </a>
-              <a href="/contact" className="inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm font-medium shadow-sm bg-white border border-slate-200 hover:bg-slate-50">
-                Book a 15‑min Call
-              </a>
-            </div>
-            {/* Quick picks */}
-            <div className="mt-6 flex flex-wrap gap-2">
-              {quickPicks.map((q) => (
-                <a key={q.href} href={q.href} className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs hover:bg-slate-50 shadow-sm">
-                  {q.label}
-                </a>
-              ))}
-            </div>
-          </div>
-          <div className="rounded-3xl bg-white shadow-sm border border-slate-200 p-5">
-            <div className="aspect-[16/10] w-full rounded-2xl grid place-items-center text-center text-sm text-slate-500 border border-dashed">
-              Hero Graphic Placeholder
-              <div className="text-xs">Replace with banner or illustration</div>
-            </div>
           </div>
         </div>
       </section>

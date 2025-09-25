@@ -1,17 +1,40 @@
-/* Custom CSS for Hero Section Background (Responsive) */
-.hero-section-tailwind {
-  /* This adds a semi-transparent black layer on top of your image */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/hero-background-mobile.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 100vh; /* Changed from height to min-height for robustness */
+/* Animated Gradient for the Main Heading */
+.main-heading-gradient {
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: linear-gradient(
+    to right, 
+    #0052d4, 
+    #4364f7, 
+    #6fb1fc, 
+    #4364f7, 
+    #0052d4
+  );
+  background-size: 200% auto;
+  animation: move-sky 10s linear infinite;
 }
 
-/* Desktop background */
+@keyframes move-sky {
+  from {
+    background-position: 0% center;
+  }
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Responsive Background Image for the Hero Section */
+.hero-section-tailwind {
+  background-image: url('/hero-background-mobile.jpg');
+  background-size: cover;
+  background-position: top;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
 @media (min-width: 768px) {
   .hero-section-tailwind {
-    /* This adds the same overlay to the desktop image */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/hero-background-desktop.jpg');
+    background-image: url('/hero-background-desktop.jpg');
   }
 }
