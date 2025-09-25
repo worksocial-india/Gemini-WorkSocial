@@ -142,15 +142,24 @@ function Dashboard() {
         <div className="flex h-full min-h-screen items-stretch">
           {showColumns ? (
             <motion.div
-              className="w-full md:w-1/3 p-4 flex flex-col items-center justify-center"
+              className="w-full md:w-1/3 p-4 flex flex-col items-center justify-center h-full min-h-screen"
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <img src="/images/homeloan-calculator.jpg" alt="Home Loan Calculator" className="w-full h-auto rounded-lg shadow-lg mb-4" />
-              <a href="/calculators/emi" className="bg-blue-900 text-white font-bold py-2 px-4 rounded hover:bg-blue-800 transition-colors">
-                Calculate Home Loan
-              </a>
+              <div className="flex flex-col items-center justify-center h-full">
+                <img
+                  src="/images/homeloan-calculator.jpg"
+                  alt="Home Loan Calculator"
+                  className="w-full h-auto max-h-96 object-contain rounded-lg shadow-lg mb-6"
+                />
+                <a
+                  href="/calculators/emi"
+                  className="bg-blue-900 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-800 transition-colors text-center"
+                >
+                  Calculate Home Loan
+                </a>
+              </div>
             </motion.div>
           ) : (
             <div className="w-full md:w-1/3 p-4"></div>
@@ -158,8 +167,19 @@ function Dashboard() {
           <div className="w-full md:w-1/3 p-4 flex items-start justify-center">
             <div className="w-full h-1/2">
               <div className="bg-transparent p-4 rounded-lg">
-                <h2 className="text-6xl font-extrabold text-center mb-2 text-green-900" style={{ WebkitTextStroke: '1px #172554' }}>From a Small Seed, We Nurture Your Dreams into a Secure Future</h2>
-               <br/><br/><br/><br/><br/><br/><br/>
+                <h2
+                  className="text-6xl font-extrabold text-center mb-2 text-green-900"
+                  style={{ WebkitTextStroke: "1px #172554" }}
+                >
+                  From a Small Seed, We Nurture Your Dreams into a Secure Future
+                </h2>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
                 <p className="text-3xl font-bold text-center">
                   Rooted in Trust, Growing with You.
                 </p>
@@ -168,15 +188,24 @@ function Dashboard() {
           </div>
           {showColumns ? (
             <motion.div
-              className="w-full md:w-1/3 p-4 flex flex-col items-center justify-center"
+              className="w-full md:w-1/3 p-4 flex flex-col items-center justify-center h-full min-h-screen"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <img src="/EMI-calculator.png" alt="EMI Calculator" className="w-full h-auto rounded-lg shadow-lg mb-4" />
-              <a href="/calculators/emi" className="bg-blue-900 text-white font-bold py-2 px-4 rounded hover:bg-blue-800 transition-colors">
-                Calculate EMI
-              </a>
+              <div className="flex flex-col items-center justify-center h-full">
+                <img
+                  src="/EMI-calculator.png"
+                  alt="EMI Calculator"
+                  className="w-full h-auto max-h-96 object-contain rounded-lg shadow-lg mb-6"
+                />
+                <a
+                  href="/calculators/emi"
+                  className="bg-blue-900 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-800 transition-colors text-center"
+                >
+                  Calculate EMI
+                </a>
+              </div>
             </motion.div>
           ) : (
             <div className="w-full md:w-1/3 p-4"></div>
