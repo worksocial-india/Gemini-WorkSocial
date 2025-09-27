@@ -7,19 +7,22 @@ import './App.css';
 function Hero() {
   return (
     // The main container with the background image
-    <section className="hero-section-tailwind h-screen -mt-16">
+    <section className="hero-section-tailwind h-screen -mt-16 relative">
+      {/* Semi-transparent overlay for better visibility on mobile */}
+      <div className="absolute inset-0 bg-black/10 md:bg-transparent"></div>
+      
       {/* Flexbox container to create columns */}
-      <div className="flex h-full">
+      <div className="flex flex-col md:flex-row h-full relative z-10">
         
-        {/* Left Column (empty spacer) */}
-        <div className="w-1/2">
+        {/* Left Column (empty spacer) - hidden on mobile */}
+        <div className="hidden md:block md:w-1/2">
           {/* This side is intentionally left empty */}
         </div>
 
-        {/* Right Column (for text and button) */}
-        <div className="w-1/2 flex flex-col items-center justify-center text-center p-8">
+        {/* Right Column (for text and button) - full width on mobile */}
+        <div className="w-full md:w-1/2 flex flex-col items-center justify-center text-center p-4 md:p-8 bg-white/30 backdrop-blur-sm md:bg-transparent">
           <motion.h1 
-            className="text-6xl md:text-8xl font-black main-heading-gradient leading-none"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black main-heading-gradient leading-none"
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
@@ -27,7 +30,7 @@ function Hero() {
             One Platform
           </motion.h1>
           <motion.p 
-            className="text-3xl md:text-4xl text-emerald-950 tracking-widest mt-2 mb-10"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-emerald-950 tracking-widest mt-2 mb-8 md:mb-10"
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}

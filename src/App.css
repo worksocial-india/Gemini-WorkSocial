@@ -27,15 +27,17 @@
 /* Responsive Background Image for the Hero Section */
 .hero-section-tailwind {
   background-image: url('/hero-background-mobile.jpg');
-  background-size: contain;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   min-height: 100vh;
+  position: relative;
 }
 
 @media (min-width: 768px) {
   .hero-section-tailwind {
     background-image: url('/hero-background-desktop.jpg');
+    background-size: contain;
   }
 }
 

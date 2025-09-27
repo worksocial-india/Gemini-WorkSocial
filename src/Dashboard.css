@@ -54,6 +54,7 @@
     background-image: url('/dashboard-hero-desktop.jpg');
     background-size: cover;
     background-position: center;
+    position: relative;
 }
 
 /* Responsive adjustments for mobile */

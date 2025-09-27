@@ -21,6 +21,7 @@ import Deals from './Deals';
 import Partners from './Partners';
 import Community from './Community';
 import Privacy from './Privacy';
+import UnderConstruction from './UnderConstruction';
 
 
 function App() {
@@ -31,14 +32,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/calculators" element={<Calculators />}>
-            <Route path="emi" element={<EmiCalculator />} />
-            <Route path="part-payment" element={<PartPaymentCalculator />} />
-          </Route>
+          <Route path="/about" element={<UnderConstruction />} />
+          <Route path="/services" element={<UnderConstruction />} />
+          <Route path="/calculators" element={<Calculators />} />
+          <Route path="/calculators/emi" element={<EmiCalculator />} />
+          <Route path="/calculators/part-payment" element={<PartPaymentCalculator />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/knowledge" element={<KnowledgeHub />} />
+          <Route path="/knowledge" element={<UnderConstruction />} />
           <Route path="/travel" element={<Travel />} />
           <Route path="/property" element={<Property />} />
           <Route path="/loans" element={<Loans />} />
@@ -50,6 +50,7 @@ function App() {
           <Route path="/partners" element={<Partners />} />
           <Route path="/community" element={<Community />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/coming-soon" element={<UnderConstruction />} />
         </Routes>
       </main>
     </Router>
