@@ -28,16 +28,30 @@
 .hero-section-tailwind {
   background-image: url('/hero-background-mobile.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
-  min-height: 100vh;
+  height: 100dvh;
   position: relative;
+  overflow: hidden;
 }
 
 @media (min-width: 768px) {
   .hero-section-tailwind {
     background-image: url('/hero-background-desktop.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: scroll; /* Better compatibility than fixed */
+  }
+}
+
+/* Alternative approach for mobile - prevent scrolling issues */
+@media (max-width: 767px) {
+  .hero-section-tailwind {
+    background-attachment: scroll;
     background-size: contain;
+    background-position: center bottom;
+    transform: translateZ(0); /* Hardware acceleration */
+    will-change: transform;
   }
 }
 

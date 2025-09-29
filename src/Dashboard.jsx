@@ -142,34 +142,39 @@ function Dashboard() {
   return (
     <div className="min-h-screen w-full bg-gradient-to-b from-white to-slate-50 text-slate-900">
       {/* Hero */}
-      <section className="dashboard-hero-section min-h-screen -mt-16 relative">
+      <section className="dashboard-hero-section h-screen relative overflow-hidden">
         {/* Semi-transparent overlay to ensure content visibility */}
-        <div className="absolute inset-0 bg-slate-900/10 z-0"></div>
-        <div className="flex flex-col md:flex-row h-full min-h-screen items-stretch relative z-10">
-          <div className="w-full md:w-1/3 p-4"></div>
-          <div className="w-full md:w-1/3 p-4 flex items-start justify-center">
-            <div className="w-full h-1/2">
-              <div className="bg-transparent p-4 rounded-lg">
-                <h2
-                  className="text-6xl font-extrabold text-center mb-2 text-green-900"
-                  style={{ WebkitTextStroke: "1px #172554" }}
-                >
-                  From a Small Seed, We Nurture Your Dreams into a Secure Future
-                </h2>
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <p className="text-3xl font-bold text-center">
-                  Rooted in Trust, Growing with You.
-                </p>
+        <div className="absolute inset-0 bg-slate-900/5 z-0"></div>
+  <div className="px-12 md:px-20 lg:px-32 pt-8 pb-32 relative z-10">
+          <div className="text-center">
+            <div className="mb-16">
+              <h2
+                className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-green-900 leading-tight"
+                style={{ WebkitTextStroke: "1px #172554" }}
+              >
+                From a Small Seed,<br/> We Nurture Your Dreams into a Secure Future
+              </h2>
+              <p className="text-xl md:text-2xl lg:text-3xl font-bold text-slate-700 mb-4">
+                Rooted in Trust, Growing with You.
+              </p>
+              <div className="flex justify-center items-center w-full mt-16" style={{ minHeight: '180px' }}>
+                <div className="flex flex-col items-center gap-4">
+                  <Link
+                    to="/calculators/emi"
+                    className="inline-block bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold py-2 px-4 rounded-lg hover:from-green-700 hover:to-emerald-700 transform hover:scale-105 transition-all duration-300 shadow hover:shadow-md text-sm md:text-base"
+                  >
+                    🧮 Calculate Your EMI
+                  </Link>
+                  <Link
+                    to="/firebase-login"
+                    className="inline-block bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:from-indigo-700 hover:to-blue-700 transform hover:scale-105 transition-all duration-300 shadow hover:shadow-md text-sm md:text-base"
+                  >
+                    🔐 Create Account
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-          <div className="w-full md:w-1/3 p-4"></div>
         </div>
       </section>
 
