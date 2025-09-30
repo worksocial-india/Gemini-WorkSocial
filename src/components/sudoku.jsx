@@ -57,7 +57,9 @@ function AnalogueClock() {
   );
 }
 
-const Sudoku = () => {
+// ...existing code for AnalogueClock...
+
+function Sudoku() {
   const [difficulty, setDifficulty] = useState('easy');
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
   const [timerActive, setTimerActive] = useState(false);
@@ -67,7 +69,6 @@ const Sudoku = () => {
   const [conflicts, setConflicts] = useState(new Set());
   const [activeCell, setActiveCell] = useState(null);
 
-  // Generate a new puzzle when difficulty changes
   useEffect(() => {
     const { puzzle, solution: solved } = generateSudoku(difficulty);
     setInitialGrid(puzzle.map(row => [...row]));
@@ -77,7 +78,6 @@ const Sudoku = () => {
     setTimerActive(true);
   }, [difficulty]);
 
-  // Countdown timer effect
   useEffect(() => {
     if (!timerActive) return;
     if (timeLeft <= 0) return;
@@ -90,10 +90,7 @@ const Sudoku = () => {
   const checkForConflicts = useCallback((currentGrid, row, col, value) => {
     const newConflicts = new Set();
     const cellKey = (r, c) => `${r}-${c}`;
-
-    if (!value) return newConflicts; // No conflict if cell is empty
-
-    // Check row
+    if (!value) return newConflicts;
     for (let c = 0; c < 9; c++) {
       if (c !== col && currentGrid[row][c] === value) {
         newConflicts.add(cellKey(row, c));
@@ -104,25 +101,22 @@ const Sudoku = () => {
     return newConflicts;
   }, []);
 
-// Sudoku input change handler
-function handleInputChange(e, rowIndex, colIndex) {
-  const value = e.target.value === '' ? null : Number(e.target.value);
-  // Only allow numbers 1-9 or empty
-  if (value !== null && (value < 1 || value > 9)) return;
-  // Copy grid
-  const newGrid = grid.map(row => [...row]);
-  newGrid[rowIndex][colIndex] = value;
-  setGrid(newGrid);
-  // Check for conflicts
-  const newConflicts = checkForConflicts(newGrid, rowIndex, colIndex, value);
-  setConflicts(newConflicts);
-}
+  function handleInputChange(e, rowIndex, colIndex) {
+    const value = e.target.value === '' ? null : Number(e.target.value);
+    if (value !== null && (value < 1 || value > 9)) return;
+    const newGrid = grid.map(row => [...row]);
+    newGrid[rowIndex][colIndex] = value;
+    setGrid(newGrid);
+    const newConflicts = checkForConflicts(newGrid, rowIndex, colIndex, value);
+    setConflicts(newConflicts);
+  }
 
-// Sudoku solve handler
-function handleSolve() {
-  if (!solution) return;
-  setGrid(solution.map(row => [...row]));
-  setConflicts(new Set());
+  function handleSolve() {
+    if (!solution) return;
+    setGrid(solution.map(row => [...row]));
+    setConflicts(new Set());
+  }
+
   if (!grid) {
     return <div>Loading puzzle... 🧩</div>;
   }
