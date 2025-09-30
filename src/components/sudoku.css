@@ -1,0 +1,93 @@
+/* /components/sudoku.css */
+
+.sudoku-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  font-family: Arial, sans-serif;
+  margin-top: 10px;
+}
+
+.sudoku-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 40px);
+  grid-template-rows: repeat(9, 40px);
+  border: 3px solid #333;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.sudoku-cell {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  box-sizing: border-box; /* Important for consistent sizing */
+  caret-color: #3498db;
+  color: #3498db;
+  background-color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+/* Remove default number input spinners */
+.sudoku-cell::-webkit-outer-spin-button,
+.sudoku-cell::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.sudoku-cell[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.sudoku-cell:focus {
+  outline: 2px solid #3498db;
+  z-index: 1;
+}
+
+.initial-cell {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+}
+
+.conflict-cell {
+  background-color: #fbeae5;
+  color: #e74c3c;
+}
+
+.active-cell {
+    background-color: #eaf2f8;
+}
+
+
+/* Thick borders for 3x3 subgrids */
+.border-bottom {
+  border-bottom: 2px solid #333;
+}
+
+.border-right {
+  border-right: 2px solid #333;
+}
+
+.sudoku-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.sudoku-controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sudoku-controls button:hover {
+    background-color: #2980b9;
+}

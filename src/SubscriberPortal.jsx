@@ -3,7 +3,7 @@ import { useSubscriber } from './useSubscriber';
 import SubscriberAuth from './SubscriberAuth';
 import SubscriberDashboard from './SubscriberDashboard';
 
-const ContentAccessCard = ({ title, description, icon: Icon }) => {
+const ContentAccessCard = ({ title, description }) => {
   return (
     <div className="p-6 rounded-lg border-2 border-green-200 bg-green-50 hover:shadow-lg transition-all">
       <div className="flex items-start mb-4">

@@ -11,6 +11,9 @@ import FirebaseLogin from './FirebaseLogin';
 import Header from './Header';
 import Footer from './Footer';
 import Home from './Home';
+import Game from './Game';
+import NumberGuess from './NumberGuess';
+import Sudoku from './components/sudoku';
 import Dashboard from './Dashboard';
 import About from './About';
 import Services from './Services';
@@ -58,6 +61,9 @@ function App() {
                   <Route path="/calculators/part-payment" element={<PartPaymentCalculator />} />
                   <Route path="/part-payment-calculator" element={<PartPaymentCalculator />} />
                   <Route path="/knowledge" element={<KnowledgeHub />} />
+                  <Route path="/game" element={<Game />} />
+                  <Route path="/game/number-guess" element={<NumberGuess />} />
+                  <Route path="/game/sudoku" element={<Sudoku difficulty="medium" />} />
                   <Route path="/blog" element={<Blog />} />
                   {/* Blog admin temporarily disabled
                   <Route path="/blog-admin" element={

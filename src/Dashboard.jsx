@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { Calculator, LineChart, Compass, Home, CreditCard, Shield, Receipt, TrendingUp, BookOpen, GraduationCap, Tag, Handshake, Users, Phone, Construction } from "lucide-react";
 import "./Dashboard.css";
 
@@ -18,12 +17,10 @@ function CardArt({ icon, imgSrc, alt }) {
 }
 
 function Dashboard() {
-  const [showCta, setShowCta] = useState(false);
   // Hero section configurations
 
   useEffect(() => {
     const ctaTimer = setTimeout(() => {
-      setShowCta(true);
     }, 5000);
     
     return () => {

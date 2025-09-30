@@ -24,6 +24,7 @@ function Header() {
           <Link to="/blog" className="hover:underline">Blog</Link>
           <Link to="/about" className="hover:underline">About Us</Link>
           <Link to="/contact" className="hover:underline">Contact</Link>
+          <Link to="/game" className="hover:underline">Game</Link>
         </nav>
         
         {/* Mobile Menu Button */}
@@ -48,6 +49,7 @@ function Header() {
             <Link to="/blog" className="block py-2 hover:bg-gray-50 rounded px-3" onClick={() => setMobileMenuOpen(false)}>Blog</Link>
             <Link to="/about" className="block py-2 hover:bg-gray-50 rounded px-3" onClick={() => setMobileMenuOpen(false)}>About Us</Link>
             <Link to="/contact" className="block py-2 hover:bg-gray-50 rounded px-3" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
+            <Link to="/game" className="block py-2 hover:bg-gray-50 rounded px-3" onClick={() => setMobileMenuOpen(false)}>Game</Link>
           </div>
         </div>
       )}

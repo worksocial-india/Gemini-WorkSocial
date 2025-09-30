@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { Icon } from 'lucide-react';
 import './App.css';
 
 // --- Hero Section Component ---
