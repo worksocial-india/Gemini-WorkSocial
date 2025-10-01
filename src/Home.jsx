@@ -53,12 +53,14 @@ function Hero() {
             >
               Let's Go
             </Link>
-            <Link 
-              to="/subscribers"
+            <a
+              href="https://forms.zoho.in/worksocial1/form/SubscriberForm"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-block bg-blue-600 text-white font-semibold py-3 px-10 rounded-md uppercase hover:bg-blue-700 transition-colors text-lg"
             >
               Join Now
-            </Link>
+            </a>
           </motion.div>
         </div>
 
@@ -105,12 +107,12 @@ function Home() {
           <div className="bg-slate-100 rounded-xl shadow p-8 flex flex-col items-center">
             <img src="/bankers.jpg" alt="Bankers Corner" className="h-128 w-128 max-h-[512px] max-w-[512px] mb-6 object-contain rounded-xl bg-blue-50" />
             <h3 className="font-bold text-2xl mb-4 text-center text-blue-700">Bankers Corner</h3>
-            <button className="mt-4 px-8 py-3 bg-blue-700 text-white font-semibold rounded-lg shadow hover:bg-blue-800 transition-colors text-lg">Explore Bankers</button>
+            <Link to="/calculators" className="mt-4 inline-block px-8 py-3 bg-blue-700 text-white font-semibold rounded-lg shadow hover:bg-blue-800 transition-colors text-lg">Explore Bankers</Link>
           </div>
           <div className="bg-slate-100 rounded-xl shadow p-8 flex flex-col items-center">
             <img src="/customers.png" alt="Customer Corner" className="h-128 w-128 max-h-[512px] max-w-[512px] mb-6 object-contain rounded-xl bg-green-50" />
             <h3 className="font-bold text-2xl mb-4 text-center text-green-700">Customer Corner</h3>
-            <button className="mt-4 px-8 py-3 bg-green-700 text-white font-semibold rounded-lg shadow hover:bg-green-800 transition-colors text-lg">Explore Customers</button>
+            <Link to="/coming-soon" className="mt-4 inline-block px-8 py-3 bg-green-700 text-white font-semibold rounded-lg shadow hover:bg-green-800 transition-colors text-lg">Explore Customers</Link>
           </div>
         </div>
       </section>

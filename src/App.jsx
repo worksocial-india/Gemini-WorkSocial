@@ -13,6 +13,7 @@ import Footer from './Footer';
 import Home from './Home';
 import Game from './Game';
 import NumberGuess from './NumberGuess';
+import BalloonGame from './BalloonGame';
 import Sudoku from './components/sudoku';
 import Dashboard from './Dashboard';
 import About from './About';
@@ -21,6 +22,7 @@ import Calculators from './Calculators';
 import Contact from './Contact';
 import EmiCalculator from './calculators/EmiCalculator';
 import PartPaymentCalculator from './calculators/PartPaymentCalculator';
+import LoanEligibilityCalculator from './calculators/LoanEligibilityCalculator';
 import KnowledgeHub from './KnowledgeHub';
 import Blog from './Blog';
 import BlogAdmin from './BlogAdmin';
@@ -38,6 +40,8 @@ import Deals from './Deals';
 import Partners from './Partners';
 import Community from './Community';
 import Privacy from './Privacy';
+import Banks from './pages/banks/Banks';
+import CompanyDetail from './pages/banks/CompanyDetail';
 import UnderConstruction from './UnderConstruction';
 
 
@@ -60,10 +64,12 @@ function App() {
                   <Route path="/emi-calculator" element={<EmiCalculator />} />
                   <Route path="/calculators/part-payment" element={<PartPaymentCalculator />} />
                   <Route path="/part-payment-calculator" element={<PartPaymentCalculator />} />
+                  <Route path="/calculators/eligibility" element={<LoanEligibilityCalculator />} />
                   <Route path="/knowledge" element={<KnowledgeHub />} />
                   <Route path="/game" element={<Game />} />
                   <Route path="/game/number-guess" element={<NumberGuess />} />
                   <Route path="/game/sudoku" element={<Sudoku difficulty="medium" />} />
+                  <Route path="/game/balloon" element={<BalloonGame />} />
                   <Route path="/blog" element={<Blog />} />
                   {/* Blog admin temporarily disabled
                   <Route path="/blog-admin" element={
@@ -92,6 +98,9 @@ function App() {
                   <Route path="/deals" element={<Deals />} />
                   <Route path="/partners" element={<Partners />} />
                   <Route path="/community" element={<Community />} />
+                  <Route path="/banks" element={<Banks />} />
+                  <Route path="/banks/:slug" element={<CompanyDetail />} />
+                  <Route path="/coming-soon" element={<UnderConstruction />} />
                   <Route path="/firebase-login" element={<FirebaseLogin />} />
                   <Route path="/contact" element={<Contact />} />
                 </Routes>
@@ -109,3 +118,8 @@ function App() {
 }
 
 export default App;
+
+
+
+
+

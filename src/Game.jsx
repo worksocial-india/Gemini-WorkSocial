@@ -32,6 +32,15 @@ function Game() {
               <span className="inline-block bg-yellow-600 text-white px-4 py-2 rounded-full font-semibold">Play Now</span>
             </div>
           </a>
+          {/* Balloon Pop Card */}
+          <a href="/game/balloon" className="block bg-gradient-to-br from-pink-100 to-purple-100 rounded-xl shadow-md p-6 hover:shadow-xl transition-all duration-200">
+            <div className="flex flex-col items-center">
+              <span className="text-5xl mb-2">POP</span>
+              <h2 className="text-2xl font-semibold text-pink-700 mb-2">Balloon Pop</h2>
+              <p className="text-gray-600 mb-4">Tap the balloons before they float away. Race the clock and build combos for a top score.</p>
+              <span className="inline-block bg-pink-600 text-white px-4 py-2 rounded-full font-semibold">Play Now</span>
+            </div>
+          </a>
         </div>
       </div>
 

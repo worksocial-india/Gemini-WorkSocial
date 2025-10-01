@@ -1,0 +1,395 @@
+﻿.balloon-game {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #dce8ff 0%, #fef3f7 100%);
+  padding: 3rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.balloon-game__content {
+  display: grid;
+  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+  gap: 2rem;
+  width: min(1080px, 100%);
+}
+
+@media (max-width: 960px) {
+  .balloon-game__content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.balloon-game__panel {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 1.5rem;
+  box-shadow: 0 12px 40px rgba(79, 70, 229, 0.15);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: #1f2937;
+}
+
+.balloon-game__title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.balloon-game__subtitle {
+  font-size: 1rem;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.balloon-game__score {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.balloon-game__score div {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(14, 165, 233, 0.08));
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.balloon-game__score span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6b7280;
+}
+
+.balloon-game__score strong {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.balloon-game__miss-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.balloon-game__miss-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.balloon-game__miss-progress-header span:first-child {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.balloon-game__miss-progress-header strong {
+  font-size: 1rem;
+  color: #1f2937;
+}
+.balloon-game__timer {
+  width: 100%;
+  height: 0.6rem;
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.balloon-game__timer-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #06b6d4);
+  border-radius: 999px;
+  transition: width 0.3s ease-out;
+}
+
+.balloon-game__meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.balloon-game__meta-item {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 1rem;
+  padding: 0.85rem 1rem;
+  box-shadow: inset 0 0 0 1px rgba(79, 70, 229, 0.1);
+}
+
+.balloon-game__meta-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+}
+
+.balloon-game__meta-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.balloon-game__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.4rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.balloon-game__button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
+}
+
+.balloon-game__button:active {
+  transform: translateY(0);
+}
+
+.balloon-game__playfield {
+  position: relative;
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.9), rgba(190, 227, 248, 0.9), rgba(224, 231, 255, 0.95));
+  border-radius: 1.75rem;
+  box-shadow: 0 18px 45px rgba(79, 70, 229, 0.2);
+  overflow: hidden;
+  min-height: 540px;
+  padding: 1.5rem;
+}
+
+.balloon-game__playfield::before,
+.balloon-game__playfield::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.balloon-game__playfield::before {
+  background: url("data:image/svg+xml,%3Csvg width='180' height='180' viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd' stroke='%23dbeafe' stroke-width='1'%3E%3Cpath d='M0 90h180M90 0v180' opacity='0.35'/%3E%3Ccircle cx='90' cy='90' r='70' opacity='0.12'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+.balloon-game__balloon {
+  position: absolute;
+  bottom: -150px;
+  border: none;
+  border-radius: 50% 50% 45% 45%;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  background-size: cover;
+  transition: transform 0.15s ease;
+  animation: float-up var(--duration, 7s) linear forwards;
+  filter: drop-shadow(0 12px 16px rgba(79, 70, 229, 0.25));
+}
+
+.balloon-game__balloon:hover {
+  transform: scale(1.05);
+}
+
+.balloon-game__balloon:active {
+  transform: scale(0.95);
+}
+
+.balloon-game__shine {
+  position: absolute;
+  top: 22%;
+  left: 26%;
+  width: 22%;
+  height: 22%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  filter: blur(1px);
+}
+
+.balloon-game__string {
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  width: 2px;
+  height: 60px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(148, 163, 184, 0.6));
+  transform: translateX(-50%);
+}
+
+.balloon-game__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.55);
+  color: #fff;
+  text-align: center;
+  gap: 0.8rem;
+  padding: 2rem;
+  z-index: 2;
+  animation: fade-in 0.4s ease forwards;
+}
+
+.balloon-game__overlay h2 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.balloon-game__overlay-button {
+  margin-top: 0.5rem;
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #f97316, #ef4444);
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.balloon-game__overlay-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 15px 30px rgba(249, 115, 22, 0.4);
+}
+
+@keyframes float-up {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate3d(calc(var(--sway-distance, 0px) / 2), -50vh, 0);
+  }
+  100% {
+    transform: translate3d(calc(var(--sway-distance, 0px) * -1), -120vh, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .balloon-game {
+    padding: 2rem 1rem;
+  }
+
+  .balloon-game__panel {
+    padding: 1.5rem;
+  }
+
+  .balloon-game__score {
+    grid-template-columns: 1fr;
+  }
+
+  .balloon-game__meta {
+    grid-template-columns: 1fr;
+  }
+
+  .balloon-game__playfield {
+    min-height: 440px;
+    padding: 1rem;
+  }
+}
+
+
+.balloon-game__break-modal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.65);
+  z-index: 3;
+}
+
+.balloon-game__break-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  padding: 2.2rem 2.6rem;
+  text-align: center;
+  box-shadow: 0 25px 50px rgba(15, 23, 42, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  max-width: 360px;
+  width: calc(100% - 2.5rem);
+}
+
+.balloon-game__break-card h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.balloon-game__break-subtitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.balloon-game__break-note {
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.balloon-game__break-button {
+  margin-top: 0.3rem;
+  padding: 0.85rem 1.7rem;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.balloon-game__break-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 30px rgba(14, 165, 233, 0.35);
+}
+
+.balloon-game__break-button:active {
+  transform: translateY(0);
+}
+
+.balloon-game__button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  box-shadow: none;
+}
+
+.balloon-game__button:disabled:hover {
+  transform: none;
+}
