@@ -43,6 +43,7 @@ import Privacy from './Privacy';
 import Banks from './pages/banks/Banks';
 import CompanyDetail from './pages/banks/CompanyDetail';
 import UnderConstruction from './UnderConstruction';
+import CarLoanCalculator from './calculators/CarLoanCalculator';
 
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
                   <Route path="/calculators/part-payment" element={<PartPaymentCalculator />} />
                   <Route path="/part-payment-calculator" element={<PartPaymentCalculator />} />
                   <Route path="/calculators/eligibility" element={<LoanEligibilityCalculator />} />
+                  <Route path="/calculators/car-loan" element={<CarLoanCalculator />} />
                   <Route path="/knowledge" element={<KnowledgeHub />} />
                   <Route path="/game" element={<Game />} />
                   <Route path="/game/number-guess" element={<NumberGuess />} />

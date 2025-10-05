@@ -42,6 +42,14 @@ const products = [
     image: '/images/pro-rata-calculator.jpg',
     status: 'coming-soon',
   },
+  {
+    id: 6,
+    name: 'Car Loan Calculator',
+    description: 'Calculate your monthly car loan EMI and plan your purchase.',
+    image: '/images/Car-loan-calculator.jpg',
+    status: 'active',
+    link: '/calculators/car-loan',
+  },
 ];
 
 function Calculators() {

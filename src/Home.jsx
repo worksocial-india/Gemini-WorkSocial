@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Icon } from 'lucide-react';
-import './App.css';
+import CarLoanCalculator from './calculators/CarLoanCalculator';
 
 // --- Hero Section Component ---
 function Hero() {
@@ -116,6 +116,7 @@ function Home() {
           </div>
         </div>
       </section>
+      <CarLoanCalculator />
     </div>
   );
 }
