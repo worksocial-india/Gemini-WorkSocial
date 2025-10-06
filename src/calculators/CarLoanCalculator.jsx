@@ -166,177 +166,222 @@ function CarLoanCalculator() {
     return `₹${amount.toLocaleString('en-IN', {maximumFractionDigits: 0})}`;
   };
 
+  // Helper function to load image as base64
+  const loadImageAsBase64 = (imagePath) => {
+    return new Promise((resolve, reject) => {
+      const img = new window.Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          resolve(canvas.toDataURL('image/png'));
+        } catch (error) {
+          reject(error);
+        }
+      };
+      img.onerror = () => reject(new Error(`Failed to load image: ${imagePath}`));
+      img.src = imagePath;
+    });
+  };
+
   // Download report as PDF
-  const createPDF = () => {
+  const createPDF = async () => {
     if (amortizationData.length === 0) {
       alert('Please calculate EMI first');
       return;
     }
     try {
+      // Load all images as base64 first
+      const logoUrl = `${window.location.origin}/Logo-worksocialindia.png`;
+      const whatsappIconUrl = `${window.location.origin}/images/Social Icon/Whatsapp.png`;
+      const emailIconUrl = `${window.location.origin}/images/Social Icon/email.png`;
+      
+      let logoBase64, whatsappIconBase64, emailIconBase64;
+      
+      try {
+        logoBase64 = await loadImageAsBase64(logoUrl);
+      } catch (error) {
+        console.warn('Logo failed to load:', error);
+        logoBase64 = null;
+      }
+      
+      try {
+        whatsappIconBase64 = await loadImageAsBase64(whatsappIconUrl);
+      } catch (error) {
+        console.warn('WhatsApp icon failed to load:', error);
+        whatsappIconBase64 = null;
+      }
+      
+      try {
+        emailIconBase64 = await loadImageAsBase64(emailIconUrl);
+      } catch (error) {
+        console.warn('Email icon failed to load:', error);
+        emailIconBase64 = null;
+      }
+
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
         format: 'a4'
       });
+      
       // --- HEADER: Two-column layout ---
       // Left: Logo and tagline (tagline below logo, 20px font)
       // Right: Title (aligned to right, top)
-      const logoUrl = `${window.location.origin}/Logo-worksocialindia.png`;
-      const drawLogo = (cb) => {
-        const img = new window.Image();
-        img.crossOrigin = '';
-        img.onload = function() {
-          // Logo at (15, 10), width 55mm, height 25mm (larger for best appearance)
-          pdf.addImage(img, 'PNG', 15, 10, 55, 25);
-          // Tagline under logo, right-aligned to logo's right edge
-          pdf.setFont('times', 'bold');
-          pdf.setFontSize(7);
-          pdf.setTextColor(40, 40, 40);
-          // Tagline X: right edge of logo (15 + 55), Y: bottom of logo + 7
-          pdf.text('Backed By Bankers', 70, 36, { align: 'right' });
-          // Add extra space below tagline (move summary section down)
-          const extraSpace = 8; // mm
-          pdf.setFont('times', 'bold');
-          pdf.setFontSize(20);
-          pdf.setTextColor(0, 51, 153);
-          const pageWidth = pdf.internal.pageSize.getWidth();
-          pdf.text('Car Loan Schedule', pageWidth - 15, 18, { align: 'right' });
-          // Move summary section and table down by extraSpace
-          pdf._customHeaderOffset = extraSpace;
-          cb();
-        };
-        img.onerror = function() {
-          // If logo fails, just print tagline at left (same Y as if logo was present)
-          pdf.setFont('times', 'bold');
-          pdf.setFontSize(7);
-          pdf.setTextColor(40, 40, 40);
-          pdf.text('Backed By Bankers', 15, 36);
-          // Add extra space below tagline (move summary section down)
-          const extraSpace = 8; // mm
-          pdf.setFont('times', 'bold');
-          pdf.setFontSize(20);
-          pdf.setTextColor(0, 51, 153);
-          const pageWidth = pdf.internal.pageSize.getWidth();
-          pdf.text('Car Loan Schedule', pageWidth - 15, 18, { align: 'right' });
-          pdf._customHeaderOffset = extraSpace;
-          cb();
-        };
-        img.src = logoUrl;
-      };
-      // --- REST OF PDF ---
-      const drawTitleAndRest = () => {
-        // --- SUMMARY SECTION ---
-        const headerOffset = pdf._customHeaderOffset || 0;
-        pdf.setFont('times', 'normal');
-        pdf.setFontSize(12);
-        pdf.setTextColor(0, 0, 0);
-        pdf.setDrawColor(220, 220, 220);
-        pdf.roundedRect(14, 36 + headerOffset, 182, 40, 3, 3, 'S');
-        pdf.setFontSize(11);
-  pdf.text(`Loan Amount: ${loanAmount.toLocaleString('en-IN', {maximumFractionDigits: 0})}`, 20, 46 + headerOffset);
-  pdf.text(`Interest Rate: ${interestRate}%`, 20, 56 + headerOffset);
-  pdf.text(`Term: ${tenureValue} years`, 20, 66 + headerOffset);
-  pdf.text(`Monthly EMI: ${Math.round(results.monthlyEMI).toLocaleString('en-IN')}`, 120, 46 + headerOffset);
-  pdf.text(`Total Interest: ${Math.round(results.totalInterest).toLocaleString('en-IN')}`, 120, 56 + headerOffset);
-  pdf.text(`Total Amount: ${Math.round(results.totalAmount).toLocaleString('en-IN')}`, 120, 66 + headerOffset);
-        // --- TABLE ---
-        // Table headers: do not show ₹ in the header, only in the values
-        const tableColumn = ["Month", "Date", "Principal", "Interest", "Balance"];
-        const tableRows = [];
-        // Show the complete amortization schedule (all EMIs)
-        let displayData = amortizationData;
-        displayData.forEach(item => {
-          if (item.month === '...') {
-            tableRows.push(['...', '...', '...', '...', '...']);
-          } else {
-            let dateStr = '';
-            if (item.date instanceof Date && !isNaN(item.date)) {
-              dateStr = item.date.toLocaleDateString('en-IN', {month: 'short', year: 'numeric'});
-            } else if (typeof item.date === 'string') {
-              dateStr = item.date;
-            }
-            tableRows.push([
-              String(item.month),
-              dateStr,
-              Number(item.principal).toLocaleString('en-IN', {maximumFractionDigits: 0}),
-              Number(item.interest).toLocaleString('en-IN', {maximumFractionDigits: 0}),
-              Number(item.balance).toLocaleString('en-IN', {maximumFractionDigits: 0})
-            ]);
+      if (logoBase64) {
+        // Logo at (15, 10), width 55mm, height 25mm (larger for best appearance)
+        pdf.addImage(logoBase64, 'PNG', 15, 10, 55, 25);
+      }
+      
+      // Tagline under logo, right-aligned to logo's right edge
+      pdf.setFont('times', 'bold');
+      pdf.setFontSize(7);
+      pdf.setTextColor(40, 40, 40);
+      // Tagline X: right edge of logo (15 + 55), Y: bottom of logo + 7
+      pdf.text('Backed By Bankers', 70, 36, { align: 'right' });
+      
+      // Add extra space below tagline (move summary section down)
+      const extraSpace = 8; // mm
+      pdf.setFont('times', 'bold');
+      pdf.setFontSize(20);
+      pdf.setTextColor(0, 51, 153);
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      pdf.text('Car Loan Schedule', pageWidth - 15, 18, { align: 'right' });
+      // --- SUMMARY SECTION ---
+      const headerOffset = extraSpace;
+      pdf.setFont('times', 'normal');
+      pdf.setFontSize(12);
+      pdf.setTextColor(0, 0, 0);
+      pdf.setDrawColor(220, 220, 220);
+      pdf.roundedRect(14, 36 + headerOffset, 182, 40, 3, 3, 'S');
+      pdf.setFontSize(11);
+      pdf.text(`Loan Amount: ${loanAmount.toLocaleString('en-IN', {maximumFractionDigits: 0})}`, 20, 46 + headerOffset);
+      pdf.text(`Interest Rate: ${interestRate}%`, 20, 56 + headerOffset);
+      pdf.text(`Term: ${tenureValue} years`, 20, 66 + headerOffset);
+      pdf.text(`Monthly EMI: ${Math.round(results.monthlyEMI).toLocaleString('en-IN')}`, 120, 46 + headerOffset);
+      pdf.text(`Total Interest: ${Math.round(results.totalInterest).toLocaleString('en-IN')}`, 120, 56 + headerOffset);
+      pdf.text(`Total Amount: ${Math.round(results.totalAmount).toLocaleString('en-IN')}`, 120, 66 + headerOffset);
+      // --- TABLE ---
+      // Table headers: do not show ₹ in the header, only in the values
+      const tableColumn = ["Month", "Date", "Principal", "Interest", "Balance"];
+      const tableRows = [];
+      // Show the complete amortization schedule (all EMIs)
+      let displayData = amortizationData;
+      displayData.forEach(item => {
+        if (item.month === '...') {
+          tableRows.push(['...', '...', '...', '...', '...']);
+        } else {
+          let dateStr = '';
+          if (item.date instanceof Date && !isNaN(item.date)) {
+            dateStr = item.date.toLocaleDateString('en-IN', {month: 'short', year: 'numeric'});
+          } else if (typeof item.date === 'string') {
+            dateStr = item.date;
           }
-        });
-        jsPDF.autoTable(pdf, {
-          head: [tableColumn],
-          body: tableRows,
-          startY: 80,
-          margin: { bottom: 38 }, // Increased bottom margin for more space above footer
-          headStyles: {
-            fillColor: [59, 130, 246],
-            textColor: 255,
-            fontStyle: 'bold',
-            font: 'times',
-          },
-          alternateRowStyles: {
-            fillColor: [245, 247, 250]
-          },
-          styles: {
-            fontSize: 9,
-            cellPadding: 3,
-            font: 'times',
-          },
-          columnStyles: {
-            0: {cellWidth: 20},
-            1: {cellWidth: 35},
-            2: {cellWidth: 45},
-            3: {cellWidth: 45},
-            4: {cellWidth: 45}
-          }
-        });
-        // --- FOOTER ---
-        const pageCount = pdf.internal.getNumberOfPages();
-        const footerLogoUrl = `${window.location.origin}/Logo-worksocialindia.png`;
-        for(let i = 1; i <= pageCount; i++) {
-          pdf.setPage(i);
-          pdf.setFont('times', 'normal');
-          pdf.setFontSize(10);
-          pdf.setTextColor(80, 80, 80);
-          // Move footer lower for increased height
-          const footerHeight = 28; // Increased height
-          const y = pdf.internal.pageSize.getHeight() - footerHeight;
-          // 1st column: logo (left, larger for visibility)
-          try {
-            // Synchronously load logo for footer (may not work in all browsers, but works for base64 or cached)
-            var img = new window.Image();
-            img.src = footerLogoUrl;
-            // Draw logo at (10, y-10), width 32mm, height 16mm (increased size)
-            pdf.addImage(img, 'PNG', 10, y - 10, 32, 16);
-          } catch {
-            // If logo fails, skip
-          }
-          // 2nd column: contact details (center)
-          const centerX = pdf.internal.pageSize.getWidth() / 2;
-          const detailsY = y + 8;
-          pdf.setFont('times', 'normal');
-          pdf.setFontSize(9);
-          pdf.setTextColor(80, 80, 80);
-          pdf.text('WhatsApp: +91 8882371688', centerX, detailsY, { align: 'center' });
-          pdf.text('Email: Hello@worksocial.org', centerX, detailsY + 8, { align: 'center' });
-          // 3rd column: website (right)
-          pdf.setFont('times', 'bold');
-          pdf.setFontSize(10);
-          pdf.textWithLink('www.worksocial.in', pdf.internal.pageSize.getWidth() - 15, y, {
-            url: 'https://www.worksocial.in',
-            align: 'right'
-          });
-          // Page number (bottom right, below website link)
-          pdf.setFont('times', 'italic');
-          pdf.setFontSize(9);
-          pdf.text(`Page ${i} of ${pageCount}`, pdf.internal.pageSize.getWidth() - 15, pdf.internal.pageSize.getHeight() - 4, {
-            align: 'right'
-          });
+          tableRows.push([
+            String(item.month),
+            dateStr,
+            Number(item.principal).toLocaleString('en-IN', {maximumFractionDigits: 0}),
+            Number(item.interest).toLocaleString('en-IN', {maximumFractionDigits: 0}),
+            Number(item.balance).toLocaleString('en-IN', {maximumFractionDigits: 0})
+          ]);
         }
-        pdf.save('Car_Loan_Schedule.pdf');
-      };
-      drawLogo(drawTitleAndRest);
+      });
+      jsPDF.autoTable(pdf, {
+        head: [tableColumn],
+        body: tableRows,
+        startY: 80,
+        margin: { bottom: 38 }, // Increased bottom margin for more space above footer
+        headStyles: {
+          fillColor: [59, 130, 246],
+          textColor: 255,
+          fontStyle: 'bold',
+          font: 'times',
+        },
+        alternateRowStyles: {
+          fillColor: [245, 247, 250]
+        },
+        styles: {
+          fontSize: 9,
+          cellPadding: 3,
+          font: 'times',
+        },
+        columnStyles: {
+          0: {cellWidth: 20},
+          1: {cellWidth: 35},
+          2: {cellWidth: 45},
+          3: {cellWidth: 45},
+          4: {cellWidth: 45}
+        }
+      });
+      // --- FOOTER ---
+      const pageCount = pdf.internal.getNumberOfPages();
+      for(let i = 1; i <= pageCount; i++) {
+        pdf.setPage(i);
+        pdf.setFont('times', 'normal');
+        pdf.setFontSize(10);
+        pdf.setTextColor(80, 80, 80);
+        // Move footer lower for increased height
+        const footerHeight = 28; // Increased height
+        const y = pdf.internal.pageSize.getHeight() - footerHeight;
+        
+        // 1st column: logo (left, larger for visibility)
+        if (logoBase64) {
+          try {
+            // Draw logo at (10, y-10), width 32mm, height 16mm (increased size)
+            pdf.addImage(logoBase64, 'PNG', 10, y - 10, 32, 16);
+          } catch (error) {
+            console.warn('Failed to add footer logo:', error);
+          }
+        }
+        
+        // 2nd column: contact details with icons (center)
+        const centerX = pdf.internal.pageSize.getWidth() / 2;
+        const detailsY = y + 4;
+        
+        // WhatsApp icon and text
+        if (whatsappIconBase64) {
+          try {
+            // Draw WhatsApp icon (small, 5mm x 5mm)
+            pdf.addImage(whatsappIconBase64, 'PNG', centerX - 35, detailsY - 3, 5, 5);
+          } catch (error) {
+            console.warn('Failed to add WhatsApp icon:', error);
+          }
+        }
+        pdf.setFont('times', 'normal');
+        pdf.setFontSize(9);
+        pdf.setTextColor(80, 80, 80);
+        pdf.text('+91 8882371688', centerX - 28, detailsY);
+        
+        // Email icon and text
+        if (emailIconBase64) {
+          try {
+            // Draw Email icon (small, 5mm x 5mm)
+            pdf.addImage(emailIconBase64, 'PNG', centerX - 35, detailsY + 5, 5, 5);
+          } catch (error) {
+            console.warn('Failed to add Email icon:', error);
+          }
+        }
+        pdf.text('Hello@worksocial.org', centerX - 28, detailsY + 8);
+        
+        // 3rd column: website (right)
+        pdf.setFont('times', 'bold');
+        pdf.setFontSize(10);
+        pdf.textWithLink('www.worksocial.in', pdf.internal.pageSize.getWidth() - 15, y, {
+          url: 'https://www.worksocial.in',
+          align: 'right'
+        });
+        // Page number (bottom right, below website link)
+        pdf.setFont('times', 'italic');
+        pdf.setFontSize(9);
+        pdf.text(`Page ${i} of ${pageCount}`, pdf.internal.pageSize.getWidth() - 15, pdf.internal.pageSize.getHeight() - 4, {
+          align: 'right'
+        });
+      }
+      pdf.save('Car_Loan_Schedule.pdf');
     } catch (error) {
       // Log the error stack and details for debugging
       console.error('PDF Generation Error:', error, error?.stack);
