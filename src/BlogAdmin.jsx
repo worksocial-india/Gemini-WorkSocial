@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from './AuthContext';
+import { useAuth } from './hooks/useAuth';
 import { Mail, Send, FileText, Eye, Edit3, Trash2, Calendar, User, Clock, Save, X, CheckCircle, AlertCircle, Upload, Download, LogOut, Shield } from 'lucide-react';
 
 const BlogAdmin = () => {

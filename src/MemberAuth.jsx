@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useMember } from './MemberContext';
+import { useMember } from './hooks/useMember';
 import { Mail, Lock, Eye, EyeOff, User, Phone, Shield, AlertCircle, LogIn, UserPlus, Star, Crown, Award } from 'lucide-react';
 
 const MemberAuth = () => {

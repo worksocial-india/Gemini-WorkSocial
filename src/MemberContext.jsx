@@ -1,14 +1,7 @@
-import React, { useState, useContext, createContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { MemberContext } from './contexts/FirebaseContext';
 
-const MemberContext = createContext();
 
-export const useMember = () => {
-  const context = useContext(MemberContext);
-  if (!context) {
-    throw new Error('useMember must be used within a MemberProvider');
-  }
-  return context;
-};
 
 export const MemberProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -239,5 +232,3 @@ export const MemberProvider = ({ children }) => {
     </MemberContext.Provider>
   );
 };
-
-export default MemberContext;

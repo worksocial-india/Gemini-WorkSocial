@@ -2,8 +2,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Chart from 'chart.js/auto';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+jsPDF.autoTable = autoTable;
 import * as XLSX from 'xlsx';
 import { Calculator, Share2, Download, FileText, Table, ArrowLeft, PieChart, Car, Calendar, BadgeDollarSign, Percent, Landmark, MessageCircle } from 'lucide-react';
 
@@ -16,13 +17,16 @@ const styles = {
   buttonSecondary: "px-3 py-2 bg-gray-100 text-gray-800 border border-gray-200 rounded-lg hover:bg-gray-200 transition duration-300 flex items-center gap-2",
 };
 
+const MAX_LOAN_AMOUNT = 20000000;
+const MAX_INTEREST_RATE = 15;
+const MAX_TENURE_YEARS = 10;
+
 function CarLoanCalculator() {
   // State variables
   const [loanAmount, setLoanAmount] = useState(500000);
   const [interestRate, setInterestRate] = useState(9.5);
   const [tenureValue, setTenureValue] = useState(5);
   const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
-  const [showShareModal, setShowShareModal] = useState(false);
   
   // Results state
   const [results, setResults] = useState({
@@ -168,129 +172,175 @@ function CarLoanCalculator() {
       alert('Please calculate EMI first');
       return;
     }
-    
     try {
-      // Create new PDF document
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
         format: 'a4'
       });
-      
-      // Add title
-      pdf.setFontSize(18);
-      pdf.setTextColor(0, 51, 153); // Dark blue color
-      pdf.text('Car Loan Amortization Schedule', pdf.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
-      
-      // Add summary section
-      pdf.setFontSize(12);
-      pdf.setTextColor(0, 0, 0); // Black color
-      pdf.setDrawColor(220, 220, 220); // Light grey for borders
-      pdf.roundedRect(14, 25, 182, 40, 3, 3, 'S'); // Draw border around summary
-      
-      // Loan summary details
-      pdf.setFontSize(11);
-      pdf.text(`Loan Amount: ${formatCurrency(loanAmount)}`, 20, 35);
-      pdf.text(`Interest Rate: ${interestRate}%`, 20, 45);
-      pdf.text(`Term: ${tenureValue} years`, 20, 55);
-      
-      pdf.text(`Monthly EMI: ${formatCurrency(results.monthlyEMI)}`, 120, 35);
-      pdf.text(`Total Interest: ${formatCurrency(results.totalInterest)}`, 120, 45);
-      pdf.text(`Total Amount: ${formatCurrency(results.totalAmount)}`, 120, 55);
-      
-      // Add table
-      const tableColumn = ["Month", "Date", "Principal (₹)", "Interest (₹)", "Balance (₹)"];
-      const tableRows = [];
-
-      // Only include the first 12 months and last month for readability
-      let displayData = [];
-      if (amortizationData.length <= 24) {
-        // Show all for smaller schedules
-        displayData = amortizationData;
-      } else {
-        // Show first 12 and last 12 months for longer schedules
-        displayData = [
-          ...amortizationData.slice(0, 12),
-          {month: '...', date: new Date(), emi: 0, principal: 0, interest: 0, balance: 0},
-          ...amortizationData.slice(-12)
-        ];
-      }
-      
-      displayData.forEach(item => {
-        // Handle the separator row
-        if (item.month === '...') {
-          const row = [
-            '...',
-            '...',
-            '...',
-            '...',
-            '...'
-          ];
-          tableRows.push(row);
-        } else {
-          // Format date to MMM YYYY (e.g., Jan 2023)
-          const dateStr = item.date instanceof Date 
-            ? item.date.toLocaleDateString('en-IN', {month: 'short', year: 'numeric'})
-            : '';
-            
-          const row = [
-            item.month,
-            dateStr,
-            item.principal.toLocaleString('en-IN', {maximumFractionDigits: 0}),
-            item.interest.toLocaleString('en-IN', {maximumFractionDigits: 0}),
-            item.balance.toLocaleString('en-IN', {maximumFractionDigits: 0})
-          ];
-          tableRows.push(row);
-        }
-      });
-
-      // Configure the table
-      pdf.autoTable({
-        head: [tableColumn],
-        body: tableRows,
-        startY: 70,
-        headStyles: {
-          fillColor: [59, 130, 246], // Blue header
-          textColor: 255,
-          fontStyle: 'bold'
-        },
-        alternateRowStyles: {
-          fillColor: [245, 247, 250] // Light blue for alternate rows
-        },
-        styles: {
-          fontSize: 9,
-          cellPadding: 3
-        },
-        columnStyles: {
-          0: {cellWidth: 20}, // Month column
-          1: {cellWidth: 35}, // Date column
-          2: {cellWidth: 45}, // Principal column
-          3: {cellWidth: 45}, // Interest column
-          4: {cellWidth: 45}  // Balance column
-        }
-      });
-      
-      // Add footer
-      const pageCount = pdf.internal.getNumberOfPages();
-      for(let i = 1; i <= pageCount; i++) {
-        pdf.setPage(i);
-        pdf.setFontSize(9);
-        pdf.setTextColor(100, 100, 100); // Grey for footer
-        pdf.text('Generated by WorkSocial.in', 15, pdf.internal.pageSize.getHeight() - 10);
-        pdf.textWithLink('www.worksocial.in', pdf.internal.pageSize.getWidth() - 15, pdf.internal.pageSize.getHeight() - 10, { 
-          url: 'https://www.worksocial.in',
-          align: 'right'
+      // --- HEADER: Two-column layout ---
+      // Left: Logo and tagline (tagline below logo, 20px font)
+      // Right: Title (aligned to right, top)
+      const logoUrl = `${window.location.origin}/Logo-worksocialindia.png`;
+      const drawLogo = (cb) => {
+        const img = new window.Image();
+        img.crossOrigin = '';
+        img.onload = function() {
+          // Logo at (15, 10), width 55mm, height 25mm (larger for best appearance)
+          pdf.addImage(img, 'PNG', 15, 10, 55, 25);
+          // Tagline under logo, right-aligned to logo's right edge
+          pdf.setFont('times', 'bold');
+          pdf.setFontSize(7);
+          pdf.setTextColor(40, 40, 40);
+          // Tagline X: right edge of logo (15 + 55), Y: bottom of logo + 7
+          pdf.text('Backed By Bankers', 70, 36, { align: 'right' });
+          // Add extra space below tagline (move summary section down)
+          const extraSpace = 8; // mm
+          pdf.setFont('times', 'bold');
+          pdf.setFontSize(20);
+          pdf.setTextColor(0, 51, 153);
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          pdf.text('Car Loan Schedule', pageWidth - 15, 18, { align: 'right' });
+          // Move summary section and table down by extraSpace
+          pdf._customHeaderOffset = extraSpace;
+          cb();
+        };
+        img.onerror = function() {
+          // If logo fails, just print tagline at left (same Y as if logo was present)
+          pdf.setFont('times', 'bold');
+          pdf.setFontSize(7);
+          pdf.setTextColor(40, 40, 40);
+          pdf.text('Backed By Bankers', 15, 36);
+          // Add extra space below tagline (move summary section down)
+          const extraSpace = 8; // mm
+          pdf.setFont('times', 'bold');
+          pdf.setFontSize(20);
+          pdf.setTextColor(0, 51, 153);
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          pdf.text('Car Loan Schedule', pageWidth - 15, 18, { align: 'right' });
+          pdf._customHeaderOffset = extraSpace;
+          cb();
+        };
+        img.src = logoUrl;
+      };
+      // --- REST OF PDF ---
+      const drawTitleAndRest = () => {
+        // --- SUMMARY SECTION ---
+        const headerOffset = pdf._customHeaderOffset || 0;
+        pdf.setFont('times', 'normal');
+        pdf.setFontSize(12);
+        pdf.setTextColor(0, 0, 0);
+        pdf.setDrawColor(220, 220, 220);
+        pdf.roundedRect(14, 36 + headerOffset, 182, 40, 3, 3, 'S');
+        pdf.setFontSize(11);
+  pdf.text(`Loan Amount: ${loanAmount.toLocaleString('en-IN', {maximumFractionDigits: 0})}`, 20, 46 + headerOffset);
+  pdf.text(`Interest Rate: ${interestRate}%`, 20, 56 + headerOffset);
+  pdf.text(`Term: ${tenureValue} years`, 20, 66 + headerOffset);
+  pdf.text(`Monthly EMI: ${Math.round(results.monthlyEMI).toLocaleString('en-IN')}`, 120, 46 + headerOffset);
+  pdf.text(`Total Interest: ${Math.round(results.totalInterest).toLocaleString('en-IN')}`, 120, 56 + headerOffset);
+  pdf.text(`Total Amount: ${Math.round(results.totalAmount).toLocaleString('en-IN')}`, 120, 66 + headerOffset);
+        // --- TABLE ---
+        // Table headers: do not show ₹ in the header, only in the values
+        const tableColumn = ["Month", "Date", "Principal", "Interest", "Balance"];
+        const tableRows = [];
+        // Show the complete amortization schedule (all EMIs)
+        let displayData = amortizationData;
+        displayData.forEach(item => {
+          if (item.month === '...') {
+            tableRows.push(['...', '...', '...', '...', '...']);
+          } else {
+            let dateStr = '';
+            if (item.date instanceof Date && !isNaN(item.date)) {
+              dateStr = item.date.toLocaleDateString('en-IN', {month: 'short', year: 'numeric'});
+            } else if (typeof item.date === 'string') {
+              dateStr = item.date;
+            }
+            tableRows.push([
+              String(item.month),
+              dateStr,
+              Number(item.principal).toLocaleString('en-IN', {maximumFractionDigits: 0}),
+              Number(item.interest).toLocaleString('en-IN', {maximumFractionDigits: 0}),
+              Number(item.balance).toLocaleString('en-IN', {maximumFractionDigits: 0})
+            ]);
+          }
         });
-        pdf.text(`Page ${i} of ${pageCount}`, pdf.internal.pageSize.getWidth() / 2, pdf.internal.pageSize.getHeight() - 10, {
-          align: 'center'
+        jsPDF.autoTable(pdf, {
+          head: [tableColumn],
+          body: tableRows,
+          startY: 80,
+          margin: { bottom: 38 }, // Increased bottom margin for more space above footer
+          headStyles: {
+            fillColor: [59, 130, 246],
+            textColor: 255,
+            fontStyle: 'bold',
+            font: 'times',
+          },
+          alternateRowStyles: {
+            fillColor: [245, 247, 250]
+          },
+          styles: {
+            fontSize: 9,
+            cellPadding: 3,
+            font: 'times',
+          },
+          columnStyles: {
+            0: {cellWidth: 20},
+            1: {cellWidth: 35},
+            2: {cellWidth: 45},
+            3: {cellWidth: 45},
+            4: {cellWidth: 45}
+          }
         });
-      }
-
-      // Save the PDF
-      pdf.save('Car_Loan_Schedule.pdf');
+        // --- FOOTER ---
+        const pageCount = pdf.internal.getNumberOfPages();
+        const footerLogoUrl = `${window.location.origin}/Logo-worksocialindia.png`;
+        for(let i = 1; i <= pageCount; i++) {
+          pdf.setPage(i);
+          pdf.setFont('times', 'normal');
+          pdf.setFontSize(10);
+          pdf.setTextColor(80, 80, 80);
+          // Move footer lower for increased height
+          const footerHeight = 28; // Increased height
+          const y = pdf.internal.pageSize.getHeight() - footerHeight;
+          // 1st column: logo (left, larger for visibility)
+          try {
+            // Synchronously load logo for footer (may not work in all browsers, but works for base64 or cached)
+            var img = new window.Image();
+            img.src = footerLogoUrl;
+            // Draw logo at (10, y-10), width 32mm, height 16mm (increased size)
+            pdf.addImage(img, 'PNG', 10, y - 10, 32, 16);
+          } catch {
+            // If logo fails, skip
+          }
+          // 2nd column: contact details (center)
+          const centerX = pdf.internal.pageSize.getWidth() / 2;
+          const detailsY = y + 8;
+          pdf.setFont('times', 'normal');
+          pdf.setFontSize(9);
+          pdf.setTextColor(80, 80, 80);
+          pdf.text('WhatsApp: +91 8882371688', centerX, detailsY, { align: 'center' });
+          pdf.text('Email: Hello@worksocial.org', centerX, detailsY + 8, { align: 'center' });
+          // 3rd column: website (right)
+          pdf.setFont('times', 'bold');
+          pdf.setFontSize(10);
+          pdf.textWithLink('www.worksocial.in', pdf.internal.pageSize.getWidth() - 15, y, {
+            url: 'https://www.worksocial.in',
+            align: 'right'
+          });
+          // Page number (bottom right, below website link)
+          pdf.setFont('times', 'italic');
+          pdf.setFontSize(9);
+          pdf.text(`Page ${i} of ${pageCount}`, pdf.internal.pageSize.getWidth() - 15, pdf.internal.pageSize.getHeight() - 4, {
+            align: 'right'
+          });
+        }
+        pdf.save('Car_Loan_Schedule.pdf');
+      };
+      drawLogo(drawTitleAndRest);
     } catch (error) {
-      console.error('PDF Generation Error:', error);
-      alert('Failed to generate PDF. Please try again.');
+      // Log the error stack and details for debugging
+      console.error('PDF Generation Error:', error, error?.stack);
+      alert('Failed to generate PDF. Please try again. See console for details.');
     }
   };
 
@@ -366,12 +416,12 @@ function CarLoanCalculator() {
               
               <div className="space-y-4">
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Loan Amount (₹)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Loan Amount (₹)</label>
                   <input 
                     type="number" 
                     value={loanAmount} 
-                    max="20000000"
-                    onChange={(e) => setLoanAmount(Math.min(parseFloat(e.target.value), 20000000) || 0)}
+                    max={MAX_LOAN_AMOUNT}
+                    onChange={(e) => setLoanAmount(Math.min(parseFloat(e.target.value), MAX_LOAN_AMOUNT) || 0)}
                     className={`${styles.inputStyle} text-sm md:text-base h-12 md:h-auto touch-manipulation`} 
                     placeholder="5,00,000" 
                     inputMode="numeric"
@@ -379,7 +429,7 @@ function CarLoanCalculator() {
                   <input 
                     type="range"
                     min="0"
-                    max="20000000"
+                    max={MAX_LOAN_AMOUNT}
                     step="10000"
                     value={loanAmount}
                     onChange={(e) => setLoanAmount(parseFloat(e.target.value))}
@@ -388,7 +438,7 @@ function CarLoanCalculator() {
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Annual Interest Rate (%)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Annual Interest Rate (%)</label>
                   <input 
                     type="number" 
                     value={interestRate} 
@@ -411,13 +461,13 @@ function CarLoanCalculator() {
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Tenure (Years)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Tenure (Years)</label>
                   <input 
                       type="number" 
                       value={tenureValue} 
                       max="10"
                       onChange={(e) => setTenureValue(Math.min(parseFloat(e.target.value), 10) || 0)}
-                      class="flex-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-gray-900 text-sm md:text-base h-12 md:h-auto touch-manipulation" 
+                      className="flex-1 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white text-gray-900 text-sm md:text-base h-12 md:h-auto touch-manipulation" 
                       placeholder="5" 
                       inputMode="numeric"
                     />

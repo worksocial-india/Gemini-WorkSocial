@@ -40,7 +40,7 @@
     background-image: url('/hero-background-desktop.jpg');
     background-size: cover;
     background-position: center center;
-    background-attachment: scroll; /* Better compatibility than fixed */
+    background-attachment: fixed; /* Better compatibility than fixed */
   }
 }
 
@@ -48,7 +48,7 @@
 @media (max-width: 767px) {
   .hero-section-tailwind {
     background-attachment: scroll;
-    background-size: contain;
+    background-size: cover;
     background-position: center bottom;
     transform: translateZ(0); /* Hardware acceleration */
     will-change: transform;

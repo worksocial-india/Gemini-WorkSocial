@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useMember } from './MemberContext';
+import { useMember } from './hooks/useMember';
 import { 
   User, Settings, Calculator, TrendingUp, BookOpen, MessageSquare, 
   Calendar, Bell, LogOut, Crown, Star, Shield, ChevronRight,

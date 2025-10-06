@@ -114,7 +114,7 @@ Try it: https://www.worksocial.in/calculators/part-payment`;
     };
     try {
       await navigator.share(shareData);
-    } catch (err) {
+    } catch {
       alert('Sharing not supported on this browser, you can manually copy the link.');
     }
   };

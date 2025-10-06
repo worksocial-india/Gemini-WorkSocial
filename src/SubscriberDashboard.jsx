@@ -15,63 +15,17 @@ import {
   Target,
   Clock
 } from 'lucide-react';
+import { ContentAccessCard, StatCard } from './components/SubscriberDashboardComponents';
+
+
 
 const SubscriberDashboard = () => {
-  const { subscriber, logout, updateSubscriber, hasContentAccess, getSubscriptionFeatures } = useSubscriber();
+  const { subscriber, logout, updateSubscriber } = useSubscriber();
   const [activeTab, setActiveTab] = useState('overview');
 
   if (!subscriber) return null;
 
-  const subscriptionFeatures = { name: 'Free Access', price: '$0/month' };
-
-  const ContentAccessCard = ({ title, description, icon: Icon, accessType, premium = false }) => {
-    const hasAccess = true;
-    
-    return (
-      <div className={`p-6 rounded-lg border-2 transition-all ${
-        hasAccess 
-          ? 'border-green-200 bg-green-50 hover:shadow-lg' 
-          : 'border-gray-200 bg-gray-50 opacity-60'
-      }`}>
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center">
-            <Icon className={`w-8 h-8 mr-3 ${hasAccess ? 'text-green-600' : 'text-gray-400'}`} />
-            <div>
-              <h3 className={`text-lg font-semibold ${hasAccess ? 'text-gray-900' : 'text-gray-500'}`}>
-                {title}
-              </h3>
-            </div>
-          </div>
-          {hasAccess ? (
-            <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-              Available
-            </span>
-          ) : (
-            <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">
-              Upgrade Required
-            </span>
-          )}
-        </div>
-        <p className={`text-sm ${hasAccess ? 'text-gray-600' : 'text-gray-400'}`}>
-          {description}
-        </p>
-      </div>
-    );
-  };
-
-  const StatCard = ({ title, value, icon: Icon, color = 'blue' }) => (
-    <div className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-lg transition-shadow">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-gray-600">{title}</p>
-          <p className={`text-2xl font-bold text-${color}-600 mt-1`}>{value}</p>
-        </div>
-        <Icon className={`w-8 h-8 text-${color}-500`} />
-      </div>
-    </div>
-  );
-
-  const OverviewTab = () => (
+  const OverviewTab = ({ subscriber }) => (
     <div className="space-y-8">
       {/* Welcome Section */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl p-8">
@@ -143,25 +97,21 @@ const SubscriberDashboard = () => {
           title="Exclusive Articles"
           description="Access premium financial articles and insights from industry experts"
           icon={BookOpen}
-          accessType="exclusive-articles"
         />
         <ContentAccessCard
           title="Video Content"
           description="Watch educational videos, tutorials, and market analysis"
           icon={PlayCircle}
-          accessType="video-content"
         />
         <ContentAccessCard
           title="Live Webinars"
           description="Join live sessions with financial experts and ask questions"
           icon={Users}
-          accessType="webinars"
         />
         <ContentAccessCard
           title="Expert Consultation"
           description="One-on-one consultation calls with certified financial advisors"
           icon={Phone}
-          accessType="expert-consultation"
         />
       </div>
     </div>
@@ -394,7 +344,7 @@ const SubscriberDashboard = () => {
             { id: 'overview', label: 'Overview', icon: TrendingUp },
             { id: 'content', label: 'Content', icon: BookOpen },
             { id: 'profile', label: 'Profile', icon: User }
-          ].map(({ id, label, icon: Icon }) => (
+          ].map(({ id, label }) => (
             <button
               key={id}
               onClick={() => setActiveTab(id)}
@@ -404,14 +354,14 @@ const SubscriberDashboard = () => {
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <Icon className="w-4 h-4 mr-2" />
+              
               {label}
             </button>
           ))}
         </div>
 
         {/* Tab Content */}
-        {activeTab === 'overview' && <OverviewTab />}
+        {activeTab === 'overview' && <OverviewTab subscriber={subscriber} />}
         {activeTab === 'content' && <ContentTab />}
         {activeTab === 'profile' && <ProfileTab />}
       </div>

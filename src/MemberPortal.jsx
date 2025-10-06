@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMember } from './MemberContext';
+import { useMember } from './hooks/useMember';
 import MemberAuth from './MemberAuth';
 import MemberDashboard from './MemberDashboard';
 import { Loader } from 'lucide-react';

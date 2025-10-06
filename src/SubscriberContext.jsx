@@ -1,6 +1,5 @@
-import React, { useState, createContext, useEffect } from 'react';
-
-export const SubscriberContext = createContext();
+import React, { useState, useEffect } from 'react';
+import { SubscriberContext } from './contexts/SubscriberContext';
 
 export const SubscriberProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -143,11 +142,11 @@ export const SubscriberProvider = ({ children }) => {
     setSubscriber(updatedSubscriber);
   };
 
-  const hasContentAccess = (contentType) => {
+  const hasContentAccess = () => {
     return true;
   };
 
-  const getSubscriptionFeatures = (subscriptionType) => {
+  const getSubscriptionFeatures = () => {
     return {
       name: 'Free Access',
       price: '$0/month',

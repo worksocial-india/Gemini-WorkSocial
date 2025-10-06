@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from './AuthContext';
+import { useAuth } from './hooks/useAuth';
 import { TwoFactorSetup, TwoFactorPrompt } from './TwoFactorAuth';
 import { Lock, User, Eye, EyeOff, Shield, AlertCircle, LogIn } from 'lucide-react';
 
