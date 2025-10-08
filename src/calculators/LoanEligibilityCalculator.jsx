@@ -1,4 +1,5 @@
 ﻿import React, { useMemo, useState } from 'react';
+import CalculatorSidebar from './CalculatorSidebar';
 
 function LoanEligibilityCalculator() {
   const [monthlyIncome, setMonthlyIncome] = useState(100000);
@@ -49,6 +50,8 @@ function LoanEligibilityCalculator() {
   });
 
   return (
+    <div className="flex">
+      <CalculatorSidebar />
     <div className="bg-slate-50 py-10">
       <div className="max-w-5xl mx-auto px-6">
         <header className="text-center mb-10">
@@ -131,54 +134,58 @@ function LoanEligibilityCalculator() {
             </div>
           </section>
 
-          <section className="space-y-6">
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-                <p className="text-sm text-slate-500">Eligible Loan Amount</p>
-                <p className="mt-2 text-3xl font-semibold text-slate-900">{formatCurrency(calculations.eligibleAmount)}</p>
-                <p className="mt-2 text-xs text-slate-500">Based on current inputs and tenure of {loanTenureYears} years.</p>
+          <section>
+            <div className="bg-white rounded-2xl shadow-lg shadow-slate-200/40 p-6 border border-slate-100">
+              <h2 className="text-xl font-semibold text-slate-700 mb-4">Eligibility Estimate</h2>
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+                  <p className="text-sm text-slate-500">Eligible Loan Amount</p>
+                  <p className="mt-2 text-3xl font-semibold text-slate-900">{formatCurrency(calculations.eligibleAmount)}</p>
+                  <p className="mt-2 text-xs text-slate-500">Based on current inputs and tenure of {loanTenureYears} years.</p>
+                </div>
+
+                <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+                  <p className="text-sm text-slate-500">Affordable EMI</p>
+                  <p className="mt-2 text-3xl font-semibold text-emerald-600">{formatCurrency(calculations.eligibleEmi)}</p>
+                  <p className="mt-2 text-xs text-slate-500">({calculations.emiToIncomeRatio.toFixed(1)}% of income • FOIR limit {calculations.foirLimitPercent.toFixed(0)}%)</p>
+                </div>
               </div>
 
               <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-                <p className="text-sm text-slate-500">Affordable EMI</p>
-                <p className="mt-2 text-3xl font-semibold text-emerald-600">{formatCurrency(calculations.eligibleEmi)}</p>
-                <p className="mt-2 text-xs text-slate-500">({calculations.emiToIncomeRatio.toFixed(1)}% of income • FOIR limit {calculations.foirLimitPercent.toFixed(0)}%)</p>
+                <h3 className="text-lg font-semibold text-slate-700 mb-3">Snapshot</h3>
+                <dl className="grid gap-3 md:grid-cols-2 text-sm text-slate-600">
+                  <div className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
+                    <dt>Annual Income</dt>
+                    <dd className="font-semibold text-slate-800">{formatCurrency(calculations.annualIncome)}</dd>
+                  </div>
+                  <div className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
+                    <dt>Residual Income after EMIs</dt>
+                    <dd className="font-semibold text-slate-800">{formatCurrency(calculations.residualCapacity)}</dd>
+                  </div>
+                  <div className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
+                    <dt>Tenure Considered</dt>
+                    <dd className="font-semibold text-slate-800">{loanTenureYears} years</dd>
+                  </div>
+                  <div className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
+                    <dt>Interest Rate</dt>
+                    <dd className="font-semibold text-slate-800">{Number(interestRate).toFixed(2)}% p.a.</dd>
+                  </div>
+                </dl>
               </div>
-            </div>
 
-            <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-              <h3 className="text-lg font-semibold text-slate-700 mb-3">Snapshot</h3>
-              <dl className="grid gap-3 md:grid-cols-2 text-sm text-slate-600">
-                <div className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
-                  <dt>Annual Income</dt>
-                  <dd className="font-semibold text-slate-800">{formatCurrency(calculations.annualIncome)}</dd>
-                </div>
-                <div className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
-                  <dt>Residual Income after EMIs</dt>
-                  <dd className="font-semibold text-slate-800">{formatCurrency(calculations.residualCapacity)}</dd>
-                </div>
-                <div className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
-                  <dt>Tenure Considered</dt>
-                  <dd className="font-semibold text-slate-800">{loanTenureYears} years</dd>
-                </div>
-                <div className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
-                  <dt>Interest Rate</dt>
-                  <dd className="font-semibold text-slate-800">{Number(interestRate).toFixed(2)}% p.a.</dd>
-                </div>
-              </dl>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-inner">
-              <h3 className="text-base font-semibold text-slate-700">Improve eligibility quickly</h3>
-              <ul className="mt-3 space-y-2 text-sm text-slate-600 list-disc list-inside">
-                <li>Reduce existing EMIs or credit card dues before applying.</li>
-                <li>Add a co-applicant with steady income.</li>
-                <li>Opt for a longer tenure if you need a higher sanctioned amount.</li>
-              </ul>
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-inner">
+                <h3 className="text-base font-semibold text-slate-700">Improve eligibility quickly</h3>
+                <ul className="mt-3 space-y-2 text-sm text-slate-600 list-disc list-inside">
+                  <li>Reduce existing EMIs or credit card dues before applying.</li>
+                  <li>Add a co-applicant with steady income.</li>
+                  <li>Opt for a longer tenure if you need a higher sanctioned amount.</li>
+                </ul>
+              </div>
             </div>
           </section>
         </div>
       </div>
+    </div>
     </div>
   );
 }

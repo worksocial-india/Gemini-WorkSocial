@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import ZohoForm from './components/ZohoForm';
 import { 
   BookOpen, 
   Home, 
@@ -590,6 +591,7 @@ function KnowledgeHub() {
           <p className="text-blue-100 text-sm mt-4">No spam, unsubscribe anytime.</p>
         </div>
       </section>
+      <ZohoForm />
     </div>
   );
 }

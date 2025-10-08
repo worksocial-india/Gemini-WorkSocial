@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Calculator, LineChart, Compass, Home, CreditCard, Shield, Receipt, TrendingUp, BookOpen, GraduationCap, Tag, Handshake, Users, Phone, Construction } from "lucide-react";
+import ZohoForm from './components/ZohoForm';
 import "./Dashboard.css";
 
 function CardArt({ icon, imgSrc, alt }) {
@@ -238,6 +239,7 @@ function Dashboard() {
           </div>
         </div>
       </footer>
+      <ZohoForm />
     </div>
   );
 }

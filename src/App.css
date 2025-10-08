@@ -1,46 +1,104 @@
-/* Animated Gradient for the Main Heading */
+/* Enhanced Animated Gradient for the Main Heading */
 .main-heading-gradient {
-  color: transparent;
+  background: linear-gradient(
+    45deg,
+    #ffffff 0%,
+    #f8fafc 20%,
+    #e2e8f0 40%,
+    #cbd5e1 60%,
+    #94a3b8 80%,
+    #64748b 100%
+  );
+  background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
-  background-image: linear-gradient(
-    to right, 
-    #0616f0, 
-    #bd4509, 
-    #0c51b1, 
-    #035b07, 
-    #6a065bbe
-  );
-  background-size: 200% auto;
-  animation: move-sky 10s linear infinite;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 8s ease-in-out infinite;
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
 }
 
-@keyframes move-sky {
-  from {
-    background-position: 0% center;
+@keyframes gradientText {
+  0%, 100% {
+    background-position: 0% 50%;
   }
-  to {
-    background-position: 200% center;
+  25% {
+    background-position: 100% 25%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 25% 100%;
   }
 }
 
-/* Responsive Background Image for the Hero Section */
+/* Enhanced Hero Section Background with Dynamic Gradient */
 .hero-section-tailwind {
-  background-image: url('/hero-background-mobile.jpg');
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  background: linear-gradient(
+    135deg,
+    #667eea 0%,
+    #764ba2 25%,
+    #f093fb 50%,
+    #f5576c 75%,
+    #4facfe 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
   height: 100dvh;
   position: relative;
   overflow: hidden;
 }
 
+/* Enhanced gradient animation */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 25%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 25% 100%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Blob animations for floating particles */
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
 @media (min-width: 768px) {
   .hero-section-tailwind {
-    background-image: url('/hero-background-desktop.jpg');
-    background-size: cover;
-    background-position: center center;
-    background-attachment: scroll; /* Better compatibility than fixed */
+    background-attachment: fixed;
   }
 }
 
@@ -48,8 +106,6 @@
 @media (max-width: 767px) {
   .hero-section-tailwind {
     background-attachment: scroll;
-    background-size: contain;
-    background-position: center bottom;
     transform: translateZ(0); /* Hardware acceleration */
     will-change: transform;
   }
@@ -60,4 +116,226 @@
   background-size: auto;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+/* Base styles for calculator components */
+.section {
+    @apply bg-white shadow-lg rounded-lg overflow-hidden mb-6;
+}
+
+.section-header {
+    @apply bg-gray-100 text-gray-800 p-4 text-lg font-semibold border-b border-gray-200;
+}
+
+.form-input, .form-select {
+    @apply w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500;
+}
+
+/* Additional animations and effects for enhanced hero */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Glow effect for buttons */
+.glow-on-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.glow-on-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.glow-on-hover:hover::before {
+  left: 100%;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Backdrop blur support */
+.backdrop-blur-xl {
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+
+.backdrop-blur-lg {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.backdrop-blur-sm {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+/* Enhanced shadow utilities */
+.shadow-3xl {
+  box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .main-heading-gradient {
+    font-size: 2.5rem;
+    line-height: 1.1;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+  
+  .hero-section-tailwind {
+    min-height: 100vh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* Optimize animations for mobile performance */
+  .animate-blob {
+    animation-duration: 10s;
+  }
+  
+  /* Touch-friendly spacing */
+  .mobile-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Enhanced mobile experience */
+@media (max-width: 640px) {
+  .main-heading-gradient {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+  
+  /* Mobile-specific background optimization */
+  .hero-section-tailwind {
+    background-attachment: scroll;
+    will-change: auto;
+  }
+  
+  /* Reduce motion for better mobile performance */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-blob,
+    .animate-pulse-slow,
+    .animate-float {
+      animation: none;
+    }
+    
+    .main-heading-gradient {
+      animation: none;
+      background: linear-gradient(45deg, #ffffff, #cbd5e1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+  
+  /* Mobile scrolling optimization */
+  .mobile-scroll-container {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    overscroll-behavior-y: contain; /* iOS Safari fallback */
+  }
+}
+
+/* Mobile viewport fixes */
+@media (max-width: 480px) {
+  .hero-section-tailwind {
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height */
+  }
+  
+  .main-heading-gradient {
+    font-size: 1.875rem;
+    padding: 0 1rem;
+  }
+  
+  /* Compact spacing for small screens */
+  .mobile-compact {
+    padding: 0.5rem;
+    margin: 0.25rem 0;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .hero-section-tailwind {
+    background-size: 300% 300%;
+  }
+}
+
+/* Landscape mobile orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-section-tailwind {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  
+  .main-heading-gradient {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .hero-section-tailwind {
+    background: linear-gradient(
+      135deg,
+      #1e293b 0%,
+      #334155 25%,
+      #475569 50%,
+      #64748b 75%,
+      #94a3b8 100%
+    );
+  }
 }

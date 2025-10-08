@@ -1,5 +1,6 @@
 ﻿import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, MessageSquare } from 'lucide-react';
+import ZohoForm from './components/ZohoForm';
 
 const supportChannels = [
   {
@@ -188,6 +189,7 @@ function Contact() {
           </div>
         </section>
       </div>
+      <ZohoForm />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import ZohoFormTrigger from './components/ZohoFormTrigger';
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -27,6 +28,13 @@ function Header() {
           <Link to="/game" className="hover:underline">Game</Link>
         </nav>
         
+        {/* Subscribe Button - Desktop */}
+        <div className="hidden md:block">
+          <ZohoFormTrigger size="sm" variant="primary">
+            Subscribe
+          </ZohoFormTrigger>
+        </div>
+        
         {/* Mobile Menu Button */}
         <button 
           className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none"
@@ -50,6 +58,16 @@ function Header() {
             <Link to="/about" className="block py-2 hover:bg-gray-50 rounded px-3" onClick={() => setMobileMenuOpen(false)}>About Us</Link>
             <Link to="/contact" className="block py-2 hover:bg-gray-50 rounded px-3" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
             <Link to="/game" className="block py-2 hover:bg-gray-50 rounded px-3" onClick={() => setMobileMenuOpen(false)}>Game</Link>
+            <div className="px-3 py-2">
+              <ZohoFormTrigger 
+                size="sm" 
+                variant="primary" 
+                className="w-full"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Subscribe Now
+              </ZohoFormTrigger>
+            </div>
           </div>
         </div>
       )}

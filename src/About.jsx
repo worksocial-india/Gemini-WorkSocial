@@ -1,4 +1,5 @@
 import React from 'react';
+import ZohoForm from './components/ZohoForm';
 import { 
   Users, 
   Target, 
@@ -303,6 +304,7 @@ function About() {
           </div>
         </div>
       </section>
+      <ZohoForm />
     </div>
   );
 }

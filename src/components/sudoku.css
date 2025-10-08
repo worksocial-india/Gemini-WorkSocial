@@ -38,8 +38,8 @@
   margin: 0;
 }
 .sudoku-cell[type=number] {
-  appearance: textfield;
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .sudoku-cell:focus {

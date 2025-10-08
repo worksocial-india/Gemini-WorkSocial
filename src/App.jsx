@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
+import GoogleAnalyticsTracker from './components/GoogleAnalyticsTracker';
 import { AuthProvider } from './AuthContext';
 import { MemberProvider } from './MemberContext';
 import { SubscriberProvider } from './SubscriberContext';
@@ -44,6 +45,23 @@ import Banks from './pages/banks/Banks';
 import CompanyDetail from './pages/banks/CompanyDetail';
 import UnderConstruction from './UnderConstruction';
 import CarLoanCalculator from './calculators/CarLoanCalculator';
+import SipCalculator from './calculators/SipCalculator';
+import SWPCalculator from './calculators/SWPCalculator';
+import MutualFundCalculator from './calculators/MutualFundCalculator';
+import StepUpSipCalculator from './calculators/StepUpSipCalculator';
+import LumpSumCalculator from './calculators/LumpSumCalculator';
+import RetirementCalculator from './calculators/RetirementCalculator';
+import ProRataCalculator from './calculators/ProRataCalculator';
+import SukanyaSamriddhiCalculator from './calculators/SukanyaSamriddhiCalculator';
+import AtalPensionCalculator from './calculators/AtalPensionCalculator';
+import IncomeTaxCalculator from './calculators/IncomeTaxCalculator';
+import PPFCalculator from './calculators/PPFCalculator';
+import FDCalculator from './calculators/FDCalculator';
+import XIRRCalculator from './calculators/XIRRCalculator';
+import GSTCalculator from './calculators/GSTCalculator';
+import HRACalculator from './calculators/HRACalculator';
+import CompoundInterestCalculator from './calculators/CompoundInterestCalculator';
+import RDCalculator from './calculators/RDCalculator';
 
 
 function App() {
@@ -53,6 +71,7 @@ function App() {
         <MemberProvider>
           <SubscriberProvider>
           <Router>
+            <GoogleAnalyticsTracker />
             <div className="min-h-screen flex flex-col">
               <Header />
               <main className="flex-grow">
@@ -67,6 +86,23 @@ function App() {
                   <Route path="/part-payment-calculator" element={<PartPaymentCalculator />} />
                   <Route path="/calculators/eligibility" element={<LoanEligibilityCalculator />} />
                   <Route path="/calculators/car-loan" element={<CarLoanCalculator />} />
+                  <Route path="/calculators/sip" element={<SipCalculator />} />
+                  <Route path="/calculators/swp" element={<SWPCalculator />} />
+                  <Route path="/calculators/mutual-fund" element={<MutualFundCalculator />} />
+                  <Route path="/calculators/step-up-sip" element={<StepUpSipCalculator />} />
+                  <Route path="/calculators/lump-sum" element={<LumpSumCalculator />} />
+                  <Route path="/calculators/retirement" element={<RetirementCalculator />} />
+                  <Route path="/calculators/pro-rata" element={<ProRataCalculator />} />
+                  <Route path="/calculators/sukanya-samriddhi" element={<SukanyaSamriddhiCalculator />} />
+                  <Route path="/calculators/atal-pension" element={<AtalPensionCalculator />} />
+                  <Route path="/calculators/income-tax" element={<IncomeTaxCalculator />} />
+                  <Route path="/calculators/ppf" element={<PPFCalculator />} />
+                  <Route path="/calculators/fd" element={<FDCalculator />} />
+                  <Route path="/calculators/xirr" element={<XIRRCalculator />} />
+                  <Route path="/calculators/gst" element={<GSTCalculator />} />
+                  <Route path="/calculators/hra" element={<HRACalculator />} />
+                  <Route path="/calculators/compound-interest" element={<CompoundInterestCalculator />} />
+                  <Route path="/calculators/rd" element={<RDCalculator />} />
                   <Route path="/knowledge" element={<KnowledgeHub />} />
                   <Route path="/game" element={<Game />} />
                   <Route path="/game/number-guess" element={<NumberGuess />} />
@@ -105,15 +141,15 @@ function App() {
                   <Route path="/coming-soon" element={<UnderConstruction />} />
                   <Route path="/firebase-login" element={<FirebaseLogin />} />
                   <Route path="/contact" element={<Contact />} />
+                  <Route path="/under-construction" element={<UnderConstruction />} />
                 </Routes>
               </main>
               <Footer />
             </div>
-            <SpeedInsights />
             <Analytics />
           </Router>
-        </SubscriberProvider>
-      </MemberProvider>
+          </SubscriberProvider>
+        </MemberProvider>
     </AuthProvider>
     </FirebaseProvider>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ZohoForm from './components/ZohoForm';
 import { 
   Calculator, 
   PieChart, 
@@ -382,6 +383,7 @@ function Services() {
           </Link>
         </div>
       </section>
+      <ZohoForm />
     </div>
   );
 }
