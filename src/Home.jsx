@@ -1,16 +1,112 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Icon, ArrowRight, Sparkles, TrendingUp, Shield, Zap } from 'lucide-react';
+import { 
+  ArrowRight, Sparkles, TrendingUp, Shield, Zap, 
+  Calculator, CreditCard, Home as HomeIcon, Landmark, 
+  Briefcase, LineChart, Phone, Users, Globe
+} from 'lucide-react';
 import ZohoForm from './components/ZohoForm';
 import EnhancedWhatsAppChat from './components/EnhancedWhatsAppChat';
 import { trackButtonClick } from './hooks/useGoogleAnalytics';
 import { usePageTitle } from './hooks/usePageTitle';
 
-// --- Hero Section Component ---
-function Hero() {
+// Feature Card Component for Hero Grid
+function FeatureCard({ icon: Icon, title, description, bgColor, delay = 0 }) {
   return (
-    <section className="hero-section-tailwind h-screen -mt-16 relative overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2 + delay * 0.1, duration: 0.5 }}
+      whileHover={{ y: -5, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
+      className={`${bgColor} rounded-2xl p-5 shadow-lg border border-white/20 backdrop-blur-sm h-full flex flex-col justify-between transition-all duration-300`}
+    >
+      <div>
+        <div className="bg-white/20 rounded-full p-3 w-12 h-12 flex items-center justify-center mb-4">
+          <Icon className="text-white w-6 h-6" />
+        </div>
+        <h3 className="text-white font-bold text-lg mb-2">{title}</h3>
+        <p className="text-white/80 text-sm">{description}</p>
+      </div>
+    </motion.div>
+  );
+}
+
+// --- Hero Section Component with 3x3 Grid ---
+function Hero() {
+  // Background colors for each card
+  const bgColors = [
+    'bg-gradient-to-br from-blue-600 to-blue-800',    // 1
+    'bg-gradient-to-br from-purple-600 to-indigo-800', // 2
+    'bg-gradient-to-br from-emerald-600 to-teal-800',  // 3
+    'bg-gradient-to-br from-pink-600 to-rose-800',     // 4
+    'bg-gradient-to-br from-gray-700 to-gray-900',     // 5 (Center)
+    'bg-gradient-to-br from-amber-600 to-orange-800',  // 6
+    'bg-gradient-to-br from-cyan-600 to-blue-800',     // 7
+    'bg-gradient-to-br from-violet-600 to-purple-800', // 8
+    'bg-gradient-to-br from-green-600 to-emerald-800'  // 9
+  ];
+
+  // Feature cards data
+  const features = [
+    {
+      icon: Calculator,
+      title: "EMI Calculators",
+      description: "Advanced tools for loan EMI calculation and financial planning",
+      bgColor: bgColors[0]
+    },
+    {
+      icon: CreditCard,
+      title: "Credit Cards",
+      description: "Compare credit cards and apply with simplified processes",
+      bgColor: bgColors[1]
+    },
+    {
+      icon: HomeIcon,
+      title: "Home Loans",
+      description: "Explore options for home financing with best rates",
+      bgColor: bgColors[2]
+    },
+    {
+      icon: LineChart,
+      title: "Investments",
+      description: "Investment options with detailed performance analysis",
+      bgColor: bgColors[3]
+    },
+    {
+      icon: Landmark,
+      title: "WorkSocial",
+      description: "Your complete financial ecosystem powered by banking experts",
+      bgColor: bgColors[4]
+    },
+    {
+      icon: Shield,
+      title: "Insurance",
+      description: "Protect what matters with comprehensive coverage options",
+      bgColor: bgColors[5]
+    },
+    {
+      icon: Briefcase,
+      title: "Business Loans",
+      description: "Funding solutions to grow and scale your business",
+      bgColor: bgColors[6]
+    },
+    {
+      icon: Users,
+      title: "Community",
+      description: "Connect with financial experts and like-minded individuals",
+      bgColor: bgColors[7]
+    },
+    {
+      icon: Phone,
+      title: "Customer Support",
+      description: "Expert assistance for all your financial queries",
+      bgColor: bgColors[8]
+    }
+  ];
+
+  return (
+    <section className="hero-section-tailwind min-h-screen -mt-16 relative overflow-hidden py-20">
       {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
@@ -19,289 +115,158 @@ function Hero() {
       </div>
 
       {/* Enhanced overlay with gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-purple/10 z-10"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/30 to-purple-900/20 z-10"></div>
       
-      {/* Main content container */}
-      <div className="flex flex-col md:flex-row h-full relative z-20">
-        
-        {/* Left Column - hidden on mobile, enhanced floating elements for desktop */}
-        <div className="hidden md:block md:w-1/2 relative">
-          {/* Floating elements for visual interest */}
-          <motion.div 
-            className="absolute top-1/4 left-1/4 w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg"
-            animate={{ 
-              y: [0, -20, 0],
-              rotate: [0, 180, 360] 
-            }}
-            transition={{ 
-              duration: 6,
-              repeat: Infinity,
-              ease: "easeInOut" 
-            }}
-          />
-          <motion.div 
-            className="absolute bottom-1/3 left-1/3 w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full shadow-lg"
-            animate={{ 
-              y: [0, 15, 0],
-              x: [0, 10, 0] 
-            }}
-            transition={{ 
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1 
-            }}
-          />
-          <motion.div 
-            className="absolute top-1/2 left-1/2 w-8 h-8 bg-gradient-to-r from-pink-500 to-rose-600 rounded-lg shadow-lg"
-            animate={{ 
-              rotate: [0, 360],
-              scale: [1, 1.2, 1] 
-            }}
-            transition={{ 
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 2 
-            }}
-          />
-        </div>
-
-        {/* Mobile floating elements - visible only on mobile */}
-        <div className="absolute inset-0 md:hidden pointer-events-none z-10">
-          <motion.div 
-            className="absolute top-20 right-6 w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg shadow-lg opacity-60"
-            animate={{ 
-              y: [0, -15, 0],
-              rotate: [0, 180, 360] 
-            }}
-            transition={{ 
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut" 
-            }}
-          />
-          <motion.div 
-            className="absolute top-1/3 left-6 w-6 h-6 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full shadow-lg opacity-70"
-            animate={{ 
-              y: [0, 10, 0],
-              x: [0, 8, 0] 
-            }}
-            transition={{ 
-              duration: 6,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1 
-            }}
-          />
-          <motion.div 
-            className="absolute bottom-1/3 right-8 w-5 h-5 bg-gradient-to-r from-pink-400 to-rose-500 rounded-full shadow-lg opacity-50"
-            animate={{ 
-              rotate: [0, 360],
-              scale: [1, 1.3, 1] 
-            }}
-            transition={{ 
-              duration: 7,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 2 
-            }}
-          />
-          <motion.div 
-            className="absolute top-1/2 left-1/2 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg shadow-lg opacity-60"
-            animate={{ 
-              y: [0, -12, 0],
-              x: [0, -8, 0],
-              rotate: [0, 180, 0] 
-            }}
-            transition={{ 
-              duration: 9,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 3 
-            }}
-          />
-        </div>
-
-        {/* Right Column - enhanced content with mobile optimization */}
-        <div className="w-full md:w-1/2 flex flex-col items-center justify-center text-center p-6 md:p-8 bg-white/15 backdrop-blur-lg md:bg-transparent pt-24 pb-12 md:pt-8 md:pb-8 border-l border-white/10 relative z-20">
-          
-          {/* Mobile-optimized floating badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mb-6 inline-flex items-center px-3 py-2 md:px-4 md:py-2 bg-gradient-to-r from-blue-500/30 to-purple-600/30 backdrop-blur-sm border border-white/30 rounded-full text-xs md:text-sm font-medium text-white shadow-lg"
-          >
-            <Sparkles className="w-3 h-3 md:w-4 md:h-4 mr-2 text-yellow-400" />
-            <span className="hidden sm:inline">Backed By Bankers</span>
-            <span className="sm:hidden">#1 Financial Platform</span>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20 pt-16 md:pt-24">
+        {/* Hero Header Section */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="text-center mb-12"
+        >
+          {/* Badge */}
+          <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500/30 to-purple-600/30 backdrop-blur-sm border border-white/30 rounded-full text-sm font-medium text-white shadow-lg mb-4">
+            <Sparkles className="w-4 h-4 mr-2 text-yellow-400" />
+            <span>Backed By Bankers</span>
             <motion.div 
               className="ml-2 w-2 h-2 bg-green-400 rounded-full"
               animate={{ scale: [1, 1.5, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
-          </motion.div>
-
-          {/* Mobile-optimized main heading */}
+          </div>
+          
+          {/* Main Headline */}
           <motion.h1 
-            className="text-3xl sm:text-4xl md:text-6xl lg:text-8xl font-black main-heading-gradient leading-tight md:leading-none mb-3 md:mb-4 px-2"
-            initial={{ opacity: 0, y: -50, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight md:leading-none mb-4 main-heading-gradient"
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.7 }}
           >
             One Platform
           </motion.h1>
 
-          {/* Mobile-optimized subtitle */}
+          {/* Subtitle */}
           <motion.p 
-            className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-emerald-400 to-teal-600 bg-clip-text text-transparent tracking-wide mt-1 md:mt-2 mb-6 md:mb-10 px-2"
-            initial={{ opacity: 0, y: -30 }}
+            className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-400 to-teal-600 bg-clip-text text-transparent mb-8"
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+            transition={{ delay: 0.4, duration: 0.7 }}
           >
             Endless Possibilities
           </motion.p>
+        </motion.div>
 
-          {/* Mobile-optimized feature highlights */}
-          <motion.div 
-            className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 mb-6 md:mb-8 w-full max-w-sm md:max-w-md px-2"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
-          >
-            <motion.div 
-              className="flex items-center space-x-1 sm:space-x-2 bg-white/15 backdrop-blur-sm rounded-lg px-2 py-2 sm:px-3 sm:py-2 border border-white/20"
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.2)" }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-green-400 flex-shrink-0" />
-              <span className="text-white text-xs sm:text-sm font-medium">Smart Investments</span>
-            </motion.div>
-            <motion.div 
-              className="flex items-center space-x-1 sm:space-x-2 bg-white/15 backdrop-blur-sm rounded-lg px-2 py-2 sm:px-3 sm:py-2 border border-white/20"
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.2)" }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 flex-shrink-0" />
-              <span className="text-white text-xs sm:text-sm font-medium">Secure Banking</span>
-            </motion.div>
-            <motion.div 
-              className="flex items-center space-x-1 sm:space-x-2 bg-white/15 backdrop-blur-sm rounded-lg px-2 py-2 sm:px-3 sm:py-2 border border-white/20"
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.2)" }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 flex-shrink-0" />
-              <span className="text-white text-xs sm:text-sm font-medium">Instant Loans</span>
-            </motion.div>
-            <motion.div 
-              className="flex items-center space-x-1 sm:space-x-2 bg-white/15 backdrop-blur-sm rounded-lg px-2 py-2 sm:px-3 sm:py-2 border border-white/20"
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.2)" }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-purple-400 flex-shrink-0" />
-              <span className="text-white text-xs sm:text-sm font-medium">AI-Powered</span>
-            </motion.div>
-          </motion.div>
+        {/* 3x3 Grid Layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto">
+          {/* First Row */}
+          {features.slice(0, 3).map((feature, index) => (
+            <FeatureCard 
+              key={`row1-${index}`} 
+              icon={feature.icon} 
+              title={feature.title} 
+              description={feature.description} 
+              bgColor={feature.bgColor} 
+              delay={index} 
+            />
+          ))}
           
-          {/* Mobile-optimized CTA buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
-            className="flex flex-col gap-3 sm:gap-4 items-center w-full px-4 sm:px-0"
-          >
-            <motion.div
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="group w-full sm:w-auto"
-            >
-              <Link 
-                to="/calculators"
-                onClick={() => trackButtonClick('explore_platform', 'home_hero')}
-                className="inline-flex items-center justify-center w-full sm:w-auto bg-gradient-to-r from-black via-gray-900 to-black text-white font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-xl sm:rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 text-base sm:text-lg group-hover:from-gray-800 group-hover:to-gray-700 border border-white/20"
-              >
-                <span>Explore Platform</span>
-                <motion.div
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
-                </motion.div>
-              </Link>
-            </motion.div>
-
-            <motion.div
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="group w-full sm:w-auto"
-            >
-              <a
-                href="https://forms.worksocial.in/WorkSocialIndia/form/SubscriberForm/formperma/e3gJZqZ66wGw1tzNbgvwiH3C5vv6r9noYo9aVXgZjD0"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackButtonClick('subscribe', 'home_hero')}
-                className="inline-flex items-center justify-center w-full sm:w-auto bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-xl sm:rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 text-base sm:text-lg group-hover:from-blue-500 group-hover:to-blue-600 border border-blue-300/30"
-              >
-                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                <span>Subscribe</span>
-              </a>
-            </motion.div>
-          </motion.div>
-
-          {/* Mobile-optimized trust indicators */}
-          <motion.div 
-            className="mt-6 sm:mt-8 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1 }}
-          >
-            <p className="text-white/70 text-xs sm:text-sm mb-2">Trusted by 10,000+ users nationwide</p>
-            <div className="flex items-center justify-center space-x-3 sm:space-x-4">
-              <div className="flex -space-x-1 sm:-space-x-2">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <motion.div
-                    key={i}
-                    className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full border-2 border-white shadow-lg"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 1 + i * 0.1 }}
-                  />
-                ))}
-              </div>
-              <div className="flex items-center space-x-0.5 sm:space-x-1">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ scale: 0, rotate: 180 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ delay: 1.5 + i * 0.1 }}
-                  >
-                    <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400 fill-current" />
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+          {/* Second Row */}
+          {features.slice(3, 6).map((feature, index) => (
+            <FeatureCard 
+              key={`row2-${index}`} 
+              icon={feature.icon} 
+              title={feature.title} 
+              description={feature.description} 
+              bgColor={feature.bgColor} 
+              delay={index + 3} 
+            />
+          ))}
+          
+          {/* Third Row */}
+          {features.slice(6, 9).map((feature, index) => (
+            <FeatureCard 
+              key={`row3-${index}`} 
+              icon={feature.icon} 
+              title={feature.title} 
+              description={feature.description} 
+              bgColor={feature.bgColor} 
+              delay={index + 6} 
+            />
+          ))}
         </div>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.7 }}
+          className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="w-full sm:w-auto"
+          >
+            <Link 
+              to="/calculators"
+              onClick={() => trackButtonClick('explore_platform', 'home_hero')}
+              className="inline-flex items-center justify-center w-full sm:w-auto bg-gradient-to-r from-black via-gray-900 to-black text-white font-bold py-3 px-8 rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 text-lg border border-white/20"
+            >
+              <span>Explore Platform</span>
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Link>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="w-full sm:w-auto"
+          >
+            <a
+              href="https://forms.worksocial.in/WorkSocialIndia/form/SubscriberForm/formperma/e3gJZqZ66wGw1tzNbgvwiH3C5vv6r9noYo9aVXgZjD0"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackButtonClick('subscribe', 'home_hero')}
+              className="inline-flex items-center justify-center w-full sm:w-auto bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white font-bold py-3 px-8 rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-300 text-lg border border-blue-300/30"
+            >
+              <Sparkles className="w-5 h-5 mr-2" />
+              <span>Subscribe</span>
+            </a>
+          </motion.div>
+        </motion.div>
       </div>
 
-      {/* Mobile-optimized scroll indicator */}
+      {/* Scroll indicator */}
       <motion.div 
-        className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 text-white/70 z-30"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-white/70 z-30"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5, duration: 0.8 }}
       >
-        <div className="flex flex-col items-center">
-          <span className="text-xs sm:text-sm mb-1 sm:mb-2">Scroll to explore</span>
-          <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white/30 rounded-full flex justify-center">
-            <motion.div 
-              className="w-1 h-2 sm:h-3 bg-white/50 rounded-full mt-1 sm:mt-2"
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            />
-          </div>
-        </div>
+        <motion.p 
+          className="text-sm font-medium mb-2"
+          animate={{ y: [0, 5, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          Scroll to explore
+        </motion.p>
+        <motion.svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          strokeLinecap="round" 
+          strokeLinejoin="round"
+          animate={{ y: [0, 5, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+        >
+          <polyline points="7 13 12 18 17 13"></polyline>
+          <polyline points="7 6 12 11 17 6"></polyline>
+        </motion.svg>
       </motion.div>
     </section>
   );
@@ -311,10 +276,10 @@ function Hero() {
 function Home() {
   usePageTitle(''); // This will use the default title from usePageTitle hook
   
-  // Subscriber personalization temporarily disabled - showing normal site view for all users
   return (
     <div>
       <Hero />
+      
       {/* New 4-column block below hero section */}
       <section className="w-full py-12 px-4 bg-slate-50">
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
@@ -362,6 +327,7 @@ function Home() {
           </div>
         </div>
       </section>
+      
       <ZohoForm />
       
       {/* Enhanced WhatsApp Chat Widget */}
