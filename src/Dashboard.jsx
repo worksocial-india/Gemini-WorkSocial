@@ -235,7 +235,7 @@ function Dashboard() {
           <div className="flex gap-4 flex-wrap justify-center">
             <a href="https://wa.me/918882371688" className="hover:underline">WhatsApp</a>
             <a href="mailto:hello@worksocial.org" className="hover:underline">Email</a>
-            <a href="/privacy" className="hover:underline">Privacy & Disclaimers</a>
+            <Link to="/privacy" className="hover:underline">Privacy & Disclaimers</Link>
           </div>
         </div>
       </footer>

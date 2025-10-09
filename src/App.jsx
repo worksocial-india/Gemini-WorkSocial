@@ -42,6 +42,7 @@ import Deals from './Deals';
 import Partners from './Partners';
 import Community from './Community';
 import Privacy from './Privacy';
+import TermsOfService from './TermsOfService';
 import Banks from './pages/banks/Banks';
 import CompanyDetail from './pages/banks/CompanyDetail';
 import UnderConstruction from './UnderConstruction';
@@ -142,6 +143,8 @@ function App() {
                   <Route path="/coming-soon" element={<UnderConstruction />} />
                   <Route path="/firebase-login" element={<FirebaseLogin />} />
                   <Route path="/contact" element={<Contact />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/terms" element={<TermsOfService />} />
                   <Route path="/under-construction" element={<UnderConstruction />} />
                   <Route path="/whatsapp" element={<WhatsAppChat />} />
                 </Routes>
