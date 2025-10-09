@@ -305,7 +305,9 @@ const MutualFundCalculator = () => {
 
   return (
     <div className="flex">
-      <CalculatorSidebar />
+      <div className="hidden lg:block">
+        <CalculatorSidebar />
+      </div>
       <div className="flex-grow">
         <div className="max-w-6xl mx-auto p-4 md:p-8 bg-white shadow-lg rounded-lg mt-10">
           {/* Header */}
@@ -338,7 +340,7 @@ const MutualFundCalculator = () => {
                   <>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Monthly Investment (Rs.)
+                        Monthly Investment (₹)
                       </label>
                       <input
                         type="number"
@@ -368,7 +370,7 @@ const MutualFundCalculator = () => {
                 ) : (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Lump Sum Amount (Rs.)
+                      Lump Sum Amount (₹)
                     </label>
                     <input
                       type="number"
@@ -577,6 +579,51 @@ const MutualFundCalculator = () => {
                   <p className="text-sm text-blue-700">Easy to buy and sell units anytime</p>
                 </div>
               </div>
+            </div>
+          </div>
+          
+          {/* Share Buttons */}
+          <div className="bg-white rounded-2xl shadow-xl p-6 mt-8">
+            <div className="flex justify-center space-x-4">
+              <button 
+                onClick={() => {
+                  const text = `💰 Mutual Fund Investment Results!\n\n📊 ${investmentType === 'sip' ? `Monthly SIP: ₹${monthlyInvestment.toLocaleString('en-IN')}` : `Lump Sum: ₹${lumpSumAmount.toLocaleString('en-IN')}`}\n⏰ Duration: ${timePeriod} years\n💵 Maturity Amount: ₹${maturityAmount.toLocaleString('en-IN')}\n🎯 Wealth Gained: ₹${wealthGained.toLocaleString('en-IN')}\n\nCalculate yours: https://www.worksocial.in/calculators/mutual-fund`;
+                  const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+                  window.open(url, '_blank');
+                }}
+                className="flex items-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+              >
+                Share on WhatsApp
+              </button>
+              <button 
+                onClick={async () => {
+                  if (navigator.share) {
+                    try {
+                      await navigator.share({
+                        title: 'Mutual Fund Calculator Results',
+                        text: `My mutual fund investment can grow to ₹${maturityAmount.toLocaleString('en-IN')} in ${timePeriod} years!`,
+                        url: window.location.href,
+                      });
+                    } catch {
+                      console.log('Share cancelled');
+                    }
+                  } else {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert('Link copied to clipboard!');
+                  }
+                }}
+                className="flex items-center px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+              >
+                Share
+              </button>
+              <button 
+                onClick={() => {
+                  window.print();
+                }}
+                className="flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+              >
+                Download as PDF
+              </button>
             </div>
           </div>
         </div>

@@ -178,6 +178,53 @@ function PPFCalculator() {
           </ul>
         </div>
       </div>
+      
+      {/* Share Buttons */}
+      {results && (
+        <div className="mt-8 bg-white rounded-lg shadow-lg p-6">
+          <div className="flex justify-center space-x-4">
+            <button 
+              onClick={() => {
+                const text = `💰 PPF Investment Results!\n\n📊 Annual Deposit: ₹${annualDeposit.toLocaleString('en-IN')}\n⏰ Lock-in Period: ${results.lockInPeriod} years\n💵 Maturity Amount: ₹${results.ppfMaturityAmount.toLocaleString('en-IN', {maximumFractionDigits: 0})}\n🎯 Total Interest: ₹${results.totalInterest.toLocaleString('en-IN', {maximumFractionDigits: 0})}\n💸 Tax Savings: ₹${results.totalTaxSaving.toLocaleString('en-IN', {maximumFractionDigits: 0})}\n\nCalculate yours: https://www.worksocial.in/calculators/ppf`;
+                const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+                window.open(url, '_blank');
+              }}
+              className="flex items-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+            >
+              Share on WhatsApp
+            </button>
+            <button 
+              onClick={async () => {
+                if (navigator.share) {
+                  try {
+                    await navigator.share({
+                      title: 'PPF Calculator Results',
+                      text: `My PPF investment of ₹${annualDeposit.toLocaleString('en-IN')}/year can grow to ₹${results.ppfMaturityAmount.toLocaleString('en-IN', {maximumFractionDigits: 0})} in ${results.lockInPeriod} years!`,
+                      url: window.location.href,
+                    });
+                  } catch {
+                    console.log('Share cancelled');
+                  }
+                } else {
+                  navigator.clipboard.writeText(window.location.href);
+                  alert('Link copied to clipboard!');
+                }
+              }}
+              className="flex items-center px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+            >
+              Share
+            </button>
+            <button 
+              onClick={() => {
+                window.print();
+              }}
+              className="flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+            >
+              Download as PDF
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

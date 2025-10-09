@@ -343,7 +343,9 @@ const RetirementCalculator = () => {
 
   return (
     <div className="flex">
-      <CalculatorSidebar />
+      <div className="hidden lg:block">
+        <CalculatorSidebar />
+      </div>
       <div className="flex-grow">
         <div className="max-w-6xl mx-auto p-4 md:p-8 bg-white shadow-lg rounded-lg mt-10">
           {/* Header */}
@@ -403,7 +405,7 @@ const RetirementCalculator = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Current Monthly Expenses (Rs.)
+                    Current Monthly Expenses (₹)
                   </label>
                   <input
                     type="number"
@@ -477,7 +479,7 @@ const RetirementCalculator = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Current Savings (Rs.)
+                      Current Savings (₹)
                     </label>
                     <input
                       type="number"
@@ -489,7 +491,7 @@ const RetirementCalculator = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Monthly SIP (Rs.)
+                      Monthly SIP (₹)
                     </label>
                     <input
                       type="number"
@@ -717,6 +719,51 @@ const RetirementCalculator = () => {
                   <p className="text-sm text-indigo-700">Adjust plan based on life changes</p>
                 </div>
               </div>
+            </div>
+          </div>
+          
+          {/* Share Buttons */}
+          <div className="bg-white rounded-2xl shadow-xl p-6 mt-8">
+            <div className="flex justify-center space-x-4">
+              <button 
+                onClick={() => {
+                  const text = `🏦 Retirement Planning Results!\n\n👤 Current Age: ${currentAge}\n🎯 Retirement Age: ${retirementAge}\n💰 Required Corpus: ₹${(requiredCorpus/10000000).toFixed(2)} Crores\n📊 Monthly SIP: ₹${monthlySip.toLocaleString('en-IN')}\n📈 Projected Corpus: ₹${(projectedCorpus/10000000).toFixed(2)} Crores\n\nPlan yours: https://www.worksocial.in/calculators/retirement`;
+                  const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+                  window.open(url, '_blank');
+                }}
+                className="flex items-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+              >
+                Share on WhatsApp
+              </button>
+              <button 
+                onClick={async () => {
+                  if (navigator.share) {
+                    try {
+                      await navigator.share({
+                        title: 'Retirement Calculator Results',
+                        text: `My retirement planning: Need ₹${(requiredCorpus/10000000).toFixed(2)} Crores by age ${retirementAge}!`,
+                        url: window.location.href,
+                      });
+                    } catch {
+                      console.log('Share cancelled');
+                    }
+                  } else {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert('Link copied to clipboard!');
+                  }
+                }}
+                className="flex items-center px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+              >
+                Share
+              </button>
+              <button 
+                onClick={() => {
+                  window.print();
+                }}
+                className="flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+              >
+                Download as PDF
+              </button>
             </div>
           </div>
         </div>

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Chart from 'chart.js/auto';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
-import * as XLSX from 'xlsx';
 import { Calculator, Share2, Download, FileText, Table, ArrowLeft, PieChart, Car, Calendar, BadgeDollarSign, Percent, Landmark, MessageCircle } from 'lucide-react';
 import CalculatorSidebar from './CalculatorSidebar';
 
@@ -161,22 +160,23 @@ function CarLoanCalculator() {
     });
   };
 
-  // Handle downloading data
-  const downloadExcel = () => {
-    if (amortizationData.length === 0) {
-      alert('Please calculate EMI first');
-      return;
+  // Function to format currency for PDF (avoid Unicode symbols)
+  const formatCurrencyForPDF = (amount) => {
+    if (amount === undefined || amount === null || isNaN(amount)) {
+      return 'Rs. 0';
     }
-
-    const ws = XLSX.utils.json_to_sheet(amortizationData.map(item => ({
-        Month: item.month,
-        Principal: item.principal,
-        Interest: item.interest,
-        'Outstanding Amount': item.balance
-    })));
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Amortization Schedule");
-    XLSX.writeFile(wb, "Car_Loan_Amortization_Schedule.xlsx");
+    
+    const num = parseFloat(amount);
+    if (num >= 10000000) { // 1 crore
+      return `Rs. ${(num / 10000000).toFixed(2)} Cr`;
+    } else if (num >= 100000) { // 1 lakh
+      return `Rs. ${(num / 100000).toFixed(2)} L`;
+    } else {
+      return `Rs. ${num.toLocaleString('en-IN', { 
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0 
+      })}`;
+    }
   };
 
   const createPDF = async () => {
@@ -186,36 +186,44 @@ function CarLoanCalculator() {
     }
     
     try {
-      // Create new PDF document
+      // Create new PDF document with improved settings
       const doc = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
-        format: 'a4'
+        format: 'a4',
+        putOnlyUsedFonts: true,
+        floatPrecision: 16
       });
       
+      // Set default font encoding
+      doc.setFont('helvetica');
+      doc.setTextColor(0, 0, 0);
+      
       // Add title
+      doc.setFont('helvetica', 'bold');
       doc.setFontSize(18);
       doc.setTextColor(0, 51, 153); // Dark blue color
       doc.text('Car Loan Amortization Schedule', doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
       
       // Add summary section
+      doc.setFont('helvetica', 'normal');
       doc.setFontSize(12);
       doc.setTextColor(0, 0, 0); // Black color
       doc.setDrawColor(220, 220, 220); // Light grey for borders
       doc.roundedRect(14, 25, 182, 40, 3, 3, 'S'); // Draw border around summary
       
-      // Loan summary details
+      // Loan summary details with improved formatting
       doc.setFontSize(11);
-      doc.text(`Loan Amount: ${formatCurrency(loanAmount)}`, 20, 35);
+      doc.text(`Loan Amount: ${formatCurrencyForPDF(loanAmount)}`, 20, 35);
       doc.text(`Interest Rate: ${interestRate}%`, 20, 45);
       doc.text(`Term: ${tenureValue} years`, 20, 55);
       
-      doc.text(`Monthly EMI: ${formatCurrency(results.monthlyEMI)}`, 120, 35);
-      doc.text(`Total Interest: ${formatCurrency(results.totalInterest)}`, 120, 45);
-      doc.text(`Total Amount: ${formatCurrency(results.totalAmount)}`, 120, 55);
+      doc.text(`Monthly EMI: ${formatCurrencyForPDF(results.monthlyEMI)}`, 120, 35);
+      doc.text(`Total Interest: ${formatCurrencyForPDF(results.totalInterest)}`, 120, 45);
+      doc.text(`Total Amount: ${formatCurrencyForPDF(results.totalAmount)}`, 120, 55);
       
-      // Add table
-      const tableColumn = ["Month", "Date", "Principal (₹)", "Interest (₹)", "Balance (₹)"];
+      // Add table with improved headers
+      const tableColumn = ["Month", "Date", "Principal (Rs.)", "Interest (Rs.)", "Balance (Rs.)"];
       const tableRows = [];
 
       // Only include the first 12 months and last month for readability
@@ -252,58 +260,62 @@ function CarLoanCalculator() {
           const row = [
             item.month,
             dateStr,
-            item.principal.toLocaleString('en-IN', {maximumFractionDigits: 0}),
-            item.interest.toLocaleString('en-IN', {maximumFractionDigits: 0}),
-            item.balance.toLocaleString('en-IN', {maximumFractionDigits: 0})
+            formatCurrencyForPDF(item.principal),
+            formatCurrencyForPDF(item.interest),
+            formatCurrencyForPDF(item.balance)
           ];
           tableRows.push(row);
         }
       });
 
-      // Configure the table
+      // Configure the table with improved styling
       doc.autoTable({
         head: [tableColumn],
         body: tableRows,
-        startY: 70,
-        headStyles: {
-          fillColor: [59, 130, 246], // Blue header
-          textColor: 255,
-          fontStyle: 'bold'
-        },
-        alternateRowStyles: {
-          fillColor: [245, 247, 250] // Light blue for alternate rows
-        },
-        styles: {
+        startY: 75,
+        margin: { top: 20 },
+        styles: { 
           fontSize: 9,
-          cellPadding: 3
+          font: 'helvetica',
+          cellPadding: 3,
+          textColor: [0, 0, 0],
+          lineColor: [200, 200, 200],
+          lineWidth: 0.1,
+          halign: 'center',
+          valign: 'middle'
+        },
+        headStyles: { 
+          fillColor: [0, 51, 153],
+          textColor: [255, 255, 255],
+          fontStyle: 'bold',
+          fontSize: 10,
+          halign: 'center'
         },
         columnStyles: {
-          0: {cellWidth: 20}, // Month column
-          1: {cellWidth: 35}, // Date column
-          2: {cellWidth: 45}, // Principal column
-          3: {cellWidth: 45}, // Interest column
-          4: {cellWidth: 45}  // Balance column
-        }
+          0: { halign: 'center', cellWidth: 20 },
+          1: { halign: 'center', cellWidth: 35 },
+          2: { halign: 'right', cellWidth: 45 },
+          3: { halign: 'right', cellWidth: 45 },
+          4: { halign: 'right', cellWidth: 45 }
+        },
+        alternateRowStyles: { 
+          fillColor: [248, 249, 250] 
+        },
+        tableLineColor: [200, 200, 200],
+        tableLineWidth: 0.1
       });
       
-      // Add footer
-      const pageCount = doc.internal.getNumberOfPages();
-      for(let i = 1; i <= pageCount; i++) {
-        doc.setPage(i);
+      // Add footer with generation date and branding
+      const finalY = doc.lastAutoTable.finalY || 250;
+      if (finalY < 260) {
         doc.setFontSize(9);
-        doc.setTextColor(100, 100, 100); // Grey for footer
-        doc.text('Generated by WorkSocial.in', 15, doc.internal.pageSize.getHeight() - 10);
-        doc.textWithLink('www.worksocial.in', doc.internal.pageSize.getWidth() - 15, doc.internal.pageSize.getHeight() - 10, { 
-          url: 'https://www.worksocial.in',
-          align: 'right'
-        });
-        doc.text(`Page ${i} of ${pageCount}`, doc.internal.pageSize.getWidth() / 2, doc.internal.pageSize.getHeight() - 10, {
-          align: 'center'
-        });
+        doc.setTextColor(128, 128, 128);
+        doc.text(`Generated on: ${new Date().toLocaleDateString('en-IN')}`, 20, finalY + 20);
+        doc.text('Powered by WorkSocial India', doc.internal.pageSize.getWidth() - 20, finalY + 20, { align: 'right' });
       }
 
       // Save the PDF
-      doc.save('Car_Loan_Amortization_Schedule.pdf');
+      doc.save(`car-loan-amortization-${new Date().getTime()}.pdf`);
     } catch (error) {
       console.error('PDF Generation Error:', error);
       alert('Failed to generate PDF. Please try again.');
@@ -337,7 +349,9 @@ function CarLoanCalculator() {
 
   return (
     <div className="flex">
-      <CalculatorSidebar />
+      <div className="hidden lg:block">
+        <CalculatorSidebar />
+      </div>
     <div className="min-h-screen bg-gray-50 text-gray-800 p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
         
@@ -506,6 +520,28 @@ function CarLoanCalculator() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+              
+              {/* Share Buttons */}
+              <div className="flex justify-center space-x-4 mt-8 pb-6">
+                <button 
+                  onClick={() => shareOn('whatsapp')}
+                  className="flex items-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+                >
+                  Share on WhatsApp
+                </button>
+                <button 
+                  onClick={() => setShowShareModal(true)}
+                  className="flex items-center px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+                >
+                  Share
+                </button>
+                <button 
+                  onClick={createPDF}
+                  className="flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+                >
+                  Download as PDF
+                </button>
               </div>
             </div>
           </div>

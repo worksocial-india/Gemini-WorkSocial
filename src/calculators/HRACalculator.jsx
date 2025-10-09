@@ -223,8 +223,8 @@ function HRACalculator() {
           <div>
             <h4 className="font-semibold text-yellow-800 mb-2">Important Points:</h4>
             <ul className="text-sm text-yellow-700 space-y-1">
-              <li>• Rent receipts required for claims > ₹1 lakh/year</li>
-              <li>• PAN of landlord needed for rent > ₹1 lakh/year</li>
+              <li>• Rent receipts required for claims &gt; ₹1 lakh/year</li>
+              <li>• PAN of landlord needed for rent &gt; ₹1 lakh/year</li>
               <li>• HRA not available if living in own house</li>
               <li>• Basic salary = Basic + DA (if forms part of retirement benefits)</li>
               <li>• Can claim HRA even if living with parents (paying rent)</li>

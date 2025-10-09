@@ -17,14 +17,12 @@ import {
 } from 'lucide-react';
 
 const SubscriberDashboard = () => {
-  const { subscriber, logout, updateSubscriber, hasContentAccess, getSubscriptionFeatures } = useSubscriber();
+  const { subscriber, logout, updateSubscriber } = useSubscriber();
   const [activeTab, setActiveTab] = useState('overview');
 
   if (!subscriber) return null;
 
-  const subscriptionFeatures = { name: 'Free Access', price: '$0/month' };
-
-  const ContentAccessCard = ({ title, description, icon: Icon, accessType, premium = false }) => {
+  const ContentAccessCard = ({ title, description }) => {
     const hasAccess = true;
     
     return (
@@ -59,14 +57,13 @@ const SubscriberDashboard = () => {
     );
   };
 
-  const StatCard = ({ title, value, icon: Icon, color = 'blue' }) => (
+  const StatCard = ({ title, value, color = 'blue' }) => (
     <div className="bg-white rounded-lg p-6 border border-gray-200 hover:shadow-lg transition-shadow">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-gray-600">{title}</p>
           <p className={`text-2xl font-bold text-${color}-600 mt-1`}>{value}</p>
         </div>
-        <Icon className={`w-8 h-8 text-${color}-500`} />
       </div>
     </div>
   );
@@ -394,7 +391,7 @@ const SubscriberDashboard = () => {
             { id: 'overview', label: 'Overview', icon: TrendingUp },
             { id: 'content', label: 'Content', icon: BookOpen },
             { id: 'profile', label: 'Profile', icon: User }
-          ].map(({ id, label, icon: Icon }) => (
+          ].map(({ id, label }) => (
             <button
               key={id}
               onClick={() => setActiveTab(id)}
@@ -404,7 +401,6 @@ const SubscriberDashboard = () => {
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
-              <Icon className="w-4 h-4 mr-2" />
               {label}
             </button>
           ))}

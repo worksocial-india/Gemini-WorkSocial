@@ -220,7 +220,7 @@ function GSTCalculator() {
           <ul className="text-sm text-yellow-700 space-y-1">
             <li>• Use "Excluding GST" to add GST to base price</li>
             <li>• Use "Including GST" to extract GST from total price</li>
-            <li>• GST registration mandatory for turnover > ₹40 lakh</li>
+            <li>• GST registration mandatory for turnover &gt; ₹40 lakh</li>
           </ul>
           <ul className="text-sm text-yellow-700 space-y-1">
             <li>• Input tax credit available for registered businesses</li>

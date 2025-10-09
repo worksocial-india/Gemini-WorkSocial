@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Chart, registerables } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import CalculatorSidebar from './CalculatorSidebar';
@@ -16,7 +16,7 @@ const SipCalculator = () => {
 
   const chartRef = useRef(null);
 
-  const calculateSip = () => {
+  const calculateSip = useCallback(() => {
     const monthlyRate = annualRate / 12 / 100;
     const months = years * 12;
     const invested = monthlyInvestment * months;
@@ -54,11 +54,11 @@ const SipCalculator = () => {
             ],
           });
     }
-  };
+  }, [monthlyInvestment, annualRate, years]);
 
   useEffect(() => {
     calculateSip();
-  }, [monthlyInvestment, annualRate, years, calculateSip]);
+  }, [calculateSip]);
 
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('en-IN', {
@@ -71,7 +71,9 @@ const SipCalculator = () => {
 
   return (
     <div className="flex">
-      <CalculatorSidebar />
+      <div className="hidden lg:block">
+        <CalculatorSidebar />
+      </div>
       <div className="flex-grow max-w-4xl mx-auto p-4 md:p-8 bg-white shadow-lg rounded-lg mt-10">
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">SIP Calculator</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -127,6 +129,49 @@ const SipCalculator = () => {
                 <p className="text-lg text-gray-600">Total Investment: <span className="font-bold text-blue-800">{formatCurrency(totalInvestment)}</span></p>
                 <p className="text-lg text-gray-600">Estimated Returns: <span className="font-bold text-green-800">{formatCurrency(estimatedReturns)}</span></p>
                 <p className="text-2xl font-bold text-gray-800 mt-2">Total Value: <span className="text-green-600">{formatCurrency(totalValue)}</span></p>
+              </div>
+              
+              {/* Share Buttons */}
+              <div className="flex justify-center space-x-4 mt-8 pb-6">
+                <button 
+                  onClick={() => {
+                    const text = `💰 SIP Investment Results!\n\n📊 Monthly Investment: ${formatCurrency(monthlyInvestment)}\n⏰ Duration: ${years} years\n💵 Total Value: ${formatCurrency(totalValue)}\n🎯 Returns: ${formatCurrency(estimatedReturns)}\n\nCalculate yours: https://www.worksocial.in/calculators/sip`;
+                    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+                    window.open(url, '_blank');
+                  }}
+                  className="flex items-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+                >
+                  Share on WhatsApp
+                </button>
+                <button 
+                  onClick={async () => {
+                    if (navigator.share) {
+                      try {
+                        await navigator.share({
+                          title: 'SIP Calculator Results',
+                          text: `My SIP investment of ${formatCurrency(monthlyInvestment)}/month can grow to ${formatCurrency(totalValue)} in ${years} years!`,
+                          url: window.location.href,
+                        });
+                      } catch {
+                        console.log('Share cancelled');
+                      }
+                    } else {
+                      navigator.clipboard.writeText(window.location.href);
+                      alert('Link copied to clipboard!');
+                    }
+                  }}
+                  className="flex items-center px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+                >
+                  Share
+                </button>
+                <button 
+                  onClick={() => {
+                    window.print();
+                  }}
+                  className="flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+                >
+                  Download as PDF
+                </button>
               </div>
             </div>
           </div>

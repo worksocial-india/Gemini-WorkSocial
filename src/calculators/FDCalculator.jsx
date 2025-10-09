@@ -207,7 +207,7 @@ function FDCalculator() {
           <ul className="text-sm text-yellow-700 space-y-2">
             <li>• Interest rates vary by bank and tenure</li>
             <li>• Senior citizens get additional 0.5% interest</li>
-            <li>• TDS of 10% applicable if interest > ₹40,000</li>
+            <li>• TDS of 10% applicable if interest &gt; ₹40,000</li>
             <li>• Premature withdrawal penalties apply</li>
           </ul>
           <ul className="text-sm text-yellow-700 space-y-2">
@@ -218,6 +218,53 @@ function FDCalculator() {
           </ul>
         </div>
       </div>
+      
+      {/* Share Buttons */}
+      {results && (
+        <div className="mt-8 bg-white rounded-lg shadow-lg p-6">
+          <div className="flex justify-center space-x-4">
+            <button 
+              onClick={() => {
+                const text = `💰 Fixed Deposit Results!\n\n📊 Principal: ₹${results.principal.toLocaleString('en-IN')}\n📈 Interest Rate: ${results.interestRate}% p.a.\n⏰ Tenure: ${results.tenure} years\n💵 Maturity Amount: ₹${results.maturityAmount.toLocaleString('en-IN', {maximumFractionDigits: 0})}\n🎯 Interest Earned: ₹${results.interestEarned.toLocaleString('en-IN', {maximumFractionDigits: 0})}\n\nCalculate yours: https://www.worksocial.in/calculators/fd`;
+                const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+                window.open(url, '_blank');
+              }}
+              className="flex items-center px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+            >
+              Share on WhatsApp
+            </button>
+            <button 
+              onClick={async () => {
+                if (navigator.share) {
+                  try {
+                    await navigator.share({
+                      title: 'FD Calculator Results',
+                      text: `My FD of ₹${results.principal.toLocaleString('en-IN')} @ ${results.interestRate}% will mature to ₹${results.maturityAmount.toLocaleString('en-IN', {maximumFractionDigits: 0})}!`,
+                      url: window.location.href,
+                    });
+                  } catch {
+                    console.log('Share cancelled');
+                  }
+                } else {
+                  navigator.clipboard.writeText(window.location.href);
+                  alert('Link copied to clipboard!');
+                }
+              }}
+              className="flex items-center px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+            >
+              Share
+            </button>
+            <button 
+              onClick={() => {
+                window.print();
+              }}
+              className="flex items-center px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors shadow-lg"
+            >
+              Download as PDF
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

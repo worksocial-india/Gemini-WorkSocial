@@ -326,21 +326,23 @@ const ZohoForm = () => {
             }
 
             if ( typeof window.ZFLead !== "undefined" && typeof window.zfutm_zfLead !== "undefined" ) {
-              for( var prmIdx = 0 ; prmIdx < window.ZFLead.utmPNameArr.length ; prmIdx ++ ) {
-                      var utmPm = window.ZFLead.utmPNameArr[ prmIdx ];
-                      var utmVal = window.zfutm_zfLead.zfutm_gC_enc( window.ZFLead.utmPNameArr[ prmIdx ] );
-                    if ( typeof utmVal !== "undefined" ) {
-                      if ( utmVal != "" ){
+              for( var prmIdx2 = 0 ; prmIdx2 < window.ZFLead.utmPNameArr.length ; prmIdx2 ++ ) {
+                      var utmPm2 = window.ZFLead.utmPNameArr[ prmIdx2 ];
+                      var utmVal2 = window.zfutm_zfLead.zfutm_gC_enc( window.ZFLead.utmPNameArr[ prmIdx2 ] );
+                    if ( typeof utmVal2 !== "undefined" ) {
+                      if ( utmVal2 != "" ){
                         if(zf_src.indexOf('?') > 0){
-                          zf_src = zf_src+'&'+utmPm+'='+utmVal;
+                          zf_src = zf_src+'&'+utmPm2+'='+utmVal2;
                         }else{
-                          zf_src = zf_src+'?'+utmPm+'='+utmVal;
+                          zf_src = zf_src+'?'+utmPm2+'='+utmVal2;
                         }
                       }
                     }
                     }
             }
-          }catch(e){}
+          }catch{
+            // Handle error silently
+          }
           return zf_src;
         }
 

@@ -13,6 +13,7 @@
     "@dataconnect/generated": "file:src/dataconnect-generated",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
+    "axios": "^1.12.2",
     "chart": "^0.1.2",
     "chart.js": "^4.5.0",
     "firebase": "^12.3.0",

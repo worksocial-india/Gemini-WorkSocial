@@ -8,9 +8,8 @@ const ZohoFormTrigger = ({
   size = "md" 
 }) => {
   const handleClick = () => {
-    if (window.showZForm_390340) {
-      window.showZForm_390340();
-    }
+    // Open Zoho form in a new tab instead of popup
+    window.open('https://forms.worksocial.in/WorkSocialIndia/form/SubscriberForm/formperma/e3gJZqZ66wGw1tzNbgvwiH3C5vv6r9noYo9aVXgZjD0', '_blank', 'noopener,noreferrer');
   };
 
   const variants = {

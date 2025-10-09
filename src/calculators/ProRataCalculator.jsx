@@ -162,11 +162,178 @@ const ProRataCalculator = () => {
         }
     };
 
+    // Function to format currency for PDF (avoid Unicode symbols)
+    const formatCurrencyForPDF = (amount) => {
+        if (amount === undefined || amount === null || isNaN(amount)) {
+            return 'Rs. 0';
+        }
+        
+        const num = parseFloat(amount);
+        if (num >= 10000000) { // 1 crore
+            return `Rs. ${(num / 10000000).toFixed(2)} Cr`;
+        } else if (num >= 100000) { // 1 lakh
+            return `Rs. ${(num / 100000).toFixed(2)} L`;
+        } else {
+            return `Rs. ${num.toLocaleString('en-IN', { 
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0 
+            })}`;
+        }
+    };
+
     const generatePdf = () => {
-        const doc = new jsPDF();
-        doc.text("Home Loan Pro-rata Payment Calculator", 14, 20);
-        // Add more tables as needed...
-        doc.save('pro-rata-calculation.pdf');
+        try {
+            // Create new PDF document with improved settings
+            const doc = new jsPDF({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: 'a4',
+                putOnlyUsedFonts: true,
+                floatPrecision: 16
+            });
+            
+            // Set default font encoding
+            doc.setFont('helvetica');
+            doc.setTextColor(0, 0, 0);
+            
+            // Add title
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(18);
+            doc.setTextColor(0, 51, 153); // Dark blue color
+            doc.text('Home Loan Pro-rata Payment Calculator', doc.internal.pageSize.getWidth() / 2, 20, { align: 'center' });
+            
+            // Add property details section
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.setDrawColor(220, 220, 220);
+            doc.roundedRect(14, 25, 268, 40, 3, 3, 'S'); // Draw border around property details
+            
+            // Property details with improved formatting
+            doc.setFontSize(11);
+            doc.text(`Property: ${propertyName}`, 20, 35);
+            doc.text(`Location: ${propertyLocation}`, 20, 45);
+            doc.text(`Type: ${propertyType}`, 20, 55);
+            
+            doc.text(`Size: ${propertySize} sq ft`, 150, 35);
+            doc.text(`Property Cost: ${formatCurrencyForPDF(propertyCost)}`, 150, 45);
+            doc.text(`Total with GST: ${formatCurrencyForPDF(totalWithGst)}`, 150, 55);
+            
+            // Add payment schedule table
+            if (paymentSchedule.length > 0) {
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(14);
+                doc.text('Payment Schedule', 20, 80);
+                
+                const scheduleColumns = ["Demand", "Percentage (%)", "Amount (Rs.)"];
+                const scheduleRows = paymentSchedule.map(row => [
+                    row.demand || '',
+                    `${row.percentage}%`,
+                    formatCurrencyForPDF(row.amount)
+                ]);
+                
+                doc.autoTable({
+                    head: [scheduleColumns],
+                    body: scheduleRows,
+                    startY: 85,
+                    margin: { left: 20, right: 20 },
+                    styles: { 
+                        fontSize: 9,
+                        font: 'helvetica',
+                        cellPadding: 3,
+                        textColor: [0, 0, 0],
+                        lineColor: [200, 200, 200],
+                        lineWidth: 0.1,
+                        halign: 'center',
+                        valign: 'middle'
+                    },
+                    headStyles: { 
+                        fillColor: [0, 51, 153],
+                        textColor: [255, 255, 255],
+                        fontStyle: 'bold',
+                        fontSize: 10,
+                        halign: 'center'
+                    },
+                    columnStyles: {
+                        0: { halign: 'center' },
+                        1: { halign: 'center' },
+                        2: { halign: 'right' }
+                    },
+                    alternateRowStyles: { 
+                        fillColor: [248, 249, 250] 
+                    }
+                });
+            }
+            
+            // Add pro-rata schedule table
+            if (proRataSchedule.length > 0) {
+                const currentY = doc.lastAutoTable?.finalY || 120;
+                
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(14);
+                doc.text('Pro-rata Schedule', 20, currentY + 15);
+                
+                const proRataColumns = ["Demand", "Amount (Rs.)", "Bank Contribution (Rs.)", "Customer Contribution (Rs.)", "Bank %", "Customer %"];
+                const proRataRows = proRataSchedule.map(row => [
+                    row.demand || '',
+                    formatCurrencyForPDF(row.amount),
+                    formatCurrencyForPDF(row.bankContribution),
+                    formatCurrencyForPDF(row.customerContribution),
+                    `${(row.bankPercentage || 0).toFixed(1)}%`,
+                    `${(row.ocPercentage || 0).toFixed(1)}%`
+                ]);
+                
+                doc.autoTable({
+                    head: [proRataColumns],
+                    body: proRataRows,
+                    startY: currentY + 20,
+                    margin: { left: 20, right: 20 },
+                    styles: { 
+                        fontSize: 9,
+                        font: 'helvetica',
+                        cellPadding: 3,
+                        textColor: [0, 0, 0],
+                        lineColor: [200, 200, 200],
+                        lineWidth: 0.1,
+                        halign: 'center',
+                        valign: 'middle'
+                    },
+                    headStyles: { 
+                        fillColor: [0, 51, 153],
+                        textColor: [255, 255, 255],
+                        fontStyle: 'bold',
+                        fontSize: 10,
+                        halign: 'center'
+                    },
+                    columnStyles: {
+                        0: { halign: 'center' },
+                        1: { halign: 'right' },
+                        2: { halign: 'right' },
+                        3: { halign: 'right' },
+                        4: { halign: 'center' },
+                        5: { halign: 'center' }
+                    },
+                    alternateRowStyles: { 
+                        fillColor: [248, 249, 250] 
+                    }
+                });
+            }
+            
+            // Add footer with generation date and branding
+            const finalY = doc.lastAutoTable?.finalY || 150;
+            if (finalY < 180) {
+                doc.setFontSize(9);
+                doc.setTextColor(128, 128, 128);
+                doc.text(`Generated on: ${new Date().toLocaleDateString('en-IN')}`, 20, finalY + 20);
+                doc.text('Powered by WorkSocial India', doc.internal.pageSize.getWidth() - 20, finalY + 20, { align: 'right' });
+            }
+            
+            // Save the PDF
+            doc.save(`pro-rata-calculation-${new Date().getTime()}.pdf`);
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('Failed to generate PDF. Please try again.');
+        }
     };
 
     // --- Totals Calculation ---
@@ -188,7 +355,9 @@ const ProRataCalculator = () => {
 
     return (
         <div className="flex">
-            <CalculatorSidebar />
+            <div className="hidden lg:block">
+                <CalculatorSidebar />
+            </div>
             <div className="flex-grow">
                 <div className="calculator-container p-4 md:p-6 mx-auto" id="calculatorContent" style={{ maxWidth: '1200px' }}>
                     <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg p-6 mb-6 text-white">
@@ -238,11 +407,11 @@ const ProRataCalculator = () => {
                                 <div className="grid grid-cols-1 gap-4">
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Property Cost (Rs.)</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Property Cost (₹)</label>
                                             <input type="number" value={propertyCost} onChange={e => setPropertyCost(e.target.value)} className="form-input" />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">GST Applicable Amount (Rs.)</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">GST Applicable Amount (₹)</label>
                                             <input type="number" value={gstApplicableAmount} onChange={e => setGstApplicableAmount(e.target.value)} className="form-input" />
                                         </div>
                                     </div>
@@ -252,13 +421,13 @@ const ProRataCalculator = () => {
                                             <input type="number" value={gstRate} onChange={e => setGstRate(e.target.value)} className="form-input" />
                                         </div>
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">GST Amount (Rs.)</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">GST Amount (₹)</label>
                                             <input type="number" value={gstAmount.toFixed(2)} className="form-input" readOnly />
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Total Amount with GST (Rs.)</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Total Amount with GST (₹)</label>
                                             <input type="number" value={totalWithGst.toFixed(2)} className="form-input" readOnly />
                                         </div>
                                         <div>
@@ -279,7 +448,7 @@ const ProRataCalculator = () => {
                                 <div className="grid grid-cols-1 gap-4">
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Max Eligible Loan (Rs.)</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Max Eligible Loan (₹)</label>
                                             <input type="number" value={maxEligibleLoan.toFixed(2)} className="form-input" readOnly />
                                         </div>
                                         <div>
@@ -289,7 +458,7 @@ const ProRataCalculator = () => {
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Sanctioned Loan Amount (Rs.)</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Sanctioned Loan Amount (₹)</label>
                                             <input type="number" value={requiredLoanAmount} onChange={e => setRequiredLoanAmount(e.target.value)} className="form-input" />
                                         </div>
                                         <div>
@@ -299,7 +468,7 @@ const ProRataCalculator = () => {
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">Own Contribution Payment (Rs.)</label>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Own Contribution Payment (₹)</label>
                                             <input type="number" value={downPayment.toFixed(2)} className="form-input" readOnly />
                                         </div>
                                         <div>
@@ -322,7 +491,7 @@ const ProRataCalculator = () => {
                                         <tr>
                                             <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Demand</th>
                                             <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Percentage (%)</th>
-                                            <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (Rs.)</th>
+                                            <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (₹)</th>
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
@@ -372,13 +541,13 @@ const ProRataCalculator = () => {
                             </div>
                             <div className="grid grid-cols-2 gap-6 mt-6">
                                 <div className="text-center">
-                                    <label className="block text-sm font-semibold text-gray-800 mb-2">Sanctioned Loan Amount (Rs.)</label>
+                                    <label className="block text-sm font-semibold text-gray-800 mb-2">Sanctioned Loan Amount (₹)</label>
                                     <div className="bg-white rounded-lg p-4 border-2 border-gray-200 shadow-sm">
                                         <input type="text" value={`Rs.${(Number(requiredLoanAmount) || 0).toLocaleString('en-IN')}`} className="form-input text-center text-lg font-bold text-gray-700 bg-transparent border-0" readOnly />
                                     </div>
                                 </div>
                                 <div className="text-center">
-                                    <label className="block text-sm font-semibold text-gray-800 mb-2">Own Contribution Payment (Rs.)</label>
+                                    <label className="block text-sm font-semibold text-gray-800 mb-2">Own Contribution Payment (₹)</label>
                                     <div className="bg-white rounded-lg p-4 border-2 border-gray-200 shadow-sm">
                                         <input type="text" value={`Rs.${(downPayment || 0).toLocaleString('en-IN')}`} className="form-input text-center text-lg font-bold text-gray-700 bg-transparent border-0" readOnly />
                                     </div>
@@ -397,10 +566,10 @@ const ProRataCalculator = () => {
                                         <tr>
                                             <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Demand</th>
                                             <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Percentage (%)</th>
-                                            <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (Rs.)</th>
-                                            <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bank Contribution (Rs.)</th>
+                                            <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (₹)</th>
+                                            <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bank Contribution (₹)</th>
                                             <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bank (%)</th>
-                                            <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer Contribution (Rs.)</th>
+                                            <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer Contribution (₹)</th>
                                             <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">OC (%)</th>
                                         </tr>
                                     </thead>

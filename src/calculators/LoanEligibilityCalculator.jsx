@@ -51,7 +51,9 @@ function LoanEligibilityCalculator() {
 
   return (
     <div className="flex">
-      <CalculatorSidebar />
+      <div className="hidden lg:block">
+        <CalculatorSidebar />
+      </div>
     <div className="bg-slate-50 py-10">
       <div className="max-w-5xl mx-auto px-6">
         <header className="text-center mb-10">

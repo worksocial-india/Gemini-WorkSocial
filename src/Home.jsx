@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Icon, ArrowRight, Sparkles, TrendingUp, Shield, Zap } from 'lucide-react';
 import ZohoForm from './components/ZohoForm';
+import EnhancedWhatsAppChat from './components/EnhancedWhatsAppChat';
 import { trackButtonClick } from './hooks/useGoogleAnalytics';
 import { usePageTitle } from './hooks/usePageTitle';
 
@@ -362,6 +363,9 @@ function Home() {
         </div>
       </section>
       <ZohoForm />
+      
+      {/* Enhanced WhatsApp Chat Widget */}
+      <EnhancedWhatsAppChat phoneNumber="918882371688" />
     </div>
   );
 }

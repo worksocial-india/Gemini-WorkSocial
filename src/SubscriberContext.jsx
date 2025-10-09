@@ -143,11 +143,11 @@ export const SubscriberProvider = ({ children }) => {
     setSubscriber(updatedSubscriber);
   };
 
-  const hasContentAccess = (contentType) => {
+  const hasContentAccess = () => {
     return true;
   };
 
-  const getSubscriptionFeatures = (subscriptionType) => {
+  const getSubscriptionFeatures = () => {
     return {
       name: 'Free Access',
       price: '$0/month',

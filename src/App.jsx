@@ -28,6 +28,7 @@ import KnowledgeHub from './KnowledgeHub';
 import Blog from './Blog';
 import BlogAdmin from './BlogAdmin';
 import EmailIntegrationGuide from './EmailIntegrationGuide';
+import WhatsAppChat from './WhatsAppChat';
 import MemberPortal from './MemberPortal';
 import SubscriberPortal from './SubscriberPortal';
 import Travel from './Travel';
@@ -142,6 +143,7 @@ function App() {
                   <Route path="/firebase-login" element={<FirebaseLogin />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/under-construction" element={<UnderConstruction />} />
+                  <Route path="/whatsapp" element={<WhatsAppChat />} />
                 </Routes>
               </main>
               <Footer />

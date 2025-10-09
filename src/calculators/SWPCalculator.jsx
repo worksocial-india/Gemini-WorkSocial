@@ -276,7 +276,9 @@ const SWPCalculator = () => {
 
   return (
     <div className="flex">
-      <CalculatorSidebar />
+      <div className="hidden lg:block">
+        <CalculatorSidebar />
+      </div>
       <div className="flex-grow">
         <div className="max-w-6xl mx-auto p-4 md:p-8 bg-white shadow-lg rounded-lg mt-10">
           {/* Header */}
@@ -293,7 +295,7 @@ const SWPCalculator = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Initial Investment (Rs.)
+                    Initial Investment (₹)
                   </label>
                   <input
                     type="number"
@@ -306,7 +308,7 @@ const SWPCalculator = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Withdrawal Amount (Rs.)
+                    Withdrawal Amount (₹)
                   </label>
                   <input
                     type="number"

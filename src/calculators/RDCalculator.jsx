@@ -260,7 +260,7 @@ function RDCalculator() {
             <h4 className="font-semibold text-yellow-800 mb-2">Important Points:</h4>
             <ul className="text-sm text-yellow-700 space-y-1">
               <li>• Penalty for missed deposits (usually ₹1-5 per ₹100)</li>
-              <li>• TDS of 10% if interest > ₹40,000</li>
+              <li>• TDS of 10% if interest &gt; ₹40,000</li>
               <li>• Premature closure allowed with penalty</li>
               <li>• Auto-renewal facility available</li>
               <li>• Nomination facility mandatory</li>
