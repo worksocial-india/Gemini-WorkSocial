@@ -7,7 +7,6 @@ import {
   Briefcase, LineChart, Phone, Users, Globe
 } from 'lucide-react';
 import ZohoForm from './components/ZohoForm';
-import EnhancedWhatsAppChat from './components/EnhancedWhatsAppChat';
 import { trackButtonClick } from './hooks/useGoogleAnalytics';
 import { usePageTitle } from './hooks/usePageTitle';
 
@@ -329,9 +328,6 @@ function Home() {
       </section>
       
       <ZohoForm />
-      
-      {/* Enhanced WhatsApp Chat Widget */}
-      <EnhancedWhatsAppChat phoneNumber="918882371688" />
     </div>
   );
 }
