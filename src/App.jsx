@@ -28,7 +28,6 @@ import KnowledgeHub from './KnowledgeHub';
 import Blog from './Blog';
 import BlogAdmin from './BlogAdmin';
 import EmailIntegrationGuide from './EmailIntegrationGuide';
-import WhatsAppChat from './WhatsAppChat';
 import MemberPortal from './MemberPortal';
 import SubscriberPortal from './SubscriberPortal';
 import Travel from './Travel';
@@ -146,7 +145,6 @@ function App() {
                   <Route path="/privacy" element={<Privacy />} />
                   <Route path="/terms" element={<TermsOfService />} />
                   <Route path="/under-construction" element={<UnderConstruction />} />
-                  <Route path="/whatsapp" element={<WhatsAppChat />} />
                 </Routes>
               </main>
               <Footer />
