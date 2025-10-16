@@ -13,7 +13,10 @@ function Header() {
     <header className="border-b border-slate-200 bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-30">
       <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
-          <img src="/Logo-worksocialindia.png" alt="WorkSocial India Logo" className="h-10 object-contain" />
+          <picture>
+            <source srcSet="/Logo-worksocialindia.webp" type="image/webp" />
+            <img src="/Logo-worksocialindia.png" alt="WorkSocial India Logo" className="h-10 object-contain" width="200" height="40" />
+          </picture>
         </Link>
         
         {/* Desktop Navigation */}

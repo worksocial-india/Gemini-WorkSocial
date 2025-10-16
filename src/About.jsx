@@ -22,11 +22,16 @@ function About() {
       <section className="relative py-20 px-4 bg-white text-gray-800">
         <div className="max-w-6xl mx-auto text-center">
           <div className="flex justify-center mb-8">
-            <img 
-              src="/Logo-worksocialindia.png" 
-              alt="WorkSocial India" 
-              className="h-20 w-auto"
-            />
+            <picture>
+              <source srcSet="/Logo-worksocialindia.webp" type="image/webp" />
+              <img 
+                src="/Logo-worksocialindia.png" 
+                alt="WorkSocial India" 
+                className="h-20 w-auto"
+                width="400"
+                height="80"
+              />
+            </picture>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-gray-900">About WorkSocial India</h1>
           <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">

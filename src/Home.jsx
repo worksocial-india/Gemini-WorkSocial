@@ -283,22 +283,34 @@ function Home() {
       <section className="w-full py-12 px-4 bg-slate-50">
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           <div className="bg-white rounded-xl shadow p-6 flex flex-col items-center">
-            <img src="/Financial-Services.png" alt="Financial Services" className="h-64 w-64 mb-4 object-contain rounded-full bg-blue-100" />
+            <picture>
+              <source srcSet="/Financial-Services.webp" type="image/webp" />
+              <img src="/Financial-Services.png" alt="Financial Services" className="h-64 w-64 mb-4 object-contain rounded-full bg-blue-100" loading="lazy" width="256" height="256" />
+            </picture>
             <h3 className="font-bold text-lg mb-2">Banking & Financial Services Suite</h3>
             <p className="text-gray-600 text-sm text-center">All-in-one access to banking, loans, insurance, and investment tools for your financial growth.</p>
           </div>
           <div className="bg-white rounded-xl shadow p-6 flex flex-col items-center">
-            <img src="/school-essensials.webp" alt="School Essentials" className="h-64 w-64 mb-4 object-contain rounded-full bg-green-100" />
+            <picture>
+              <source srcSet="/school-essensials-optimized.webp" type="image/webp" />
+              <img src="/school-essensials.webp" alt="School Essentials" className="h-64 w-64 mb-4 object-contain rounded-full bg-green-100" loading="lazy" width="256" height="256" />
+            </picture>
             <h3 className="font-bold text-lg mb-2">School Essentials & Ed-Tech Tools</h3>
             <p className="text-gray-600 text-sm text-center">Smart resources for students, parents, and educators—stationery, books, and digital learning solutions.</p>
           </div>
           <div className="bg-white rounded-xl shadow p-6 flex flex-col items-center">
-            <img src="/work-balalnce.png" alt="Work-Life Balance" className="h-64 w-64 mb-4 object-contain rounded-full bg-purple-100" />
+            <picture>
+              <source srcSet="/work-balalnce.webp" type="image/webp" />
+              <img src="/work-balalnce.png" alt="Work-Life Balance" className="h-64 w-64 mb-4 object-contain rounded-full bg-purple-100" loading="lazy" width="256" height="256" />
+            </picture>
             <h3 className="font-bold text-lg mb-2">Work-Life Balance Programs</h3>
             <p className="text-gray-600 text-sm text-center">Wellness, productivity, and lifestyle programs to help you thrive at work and at home.</p>
           </div>
           <div className="bg-white rounded-xl shadow p-6 flex flex-col items-center">
-            <img src="/shopping-hub.png" alt="Shopping Hub" className="h-64 w-64 mb-4 object-contain rounded-full bg-orange-100" />
+            <picture>
+              <source srcSet="/shopping-hub.webp" type="image/webp" />
+              <img src="/shopping-hub.png" alt="Shopping Hub" className="h-64 w-64 mb-4 object-contain rounded-full bg-orange-100" loading="lazy" width="256" height="256" />
+            </picture>
             <h3 className="font-bold text-lg mb-2">Shopping Hub</h3>
             <p className="text-gray-600 text-sm text-center">Curated deals and products for every need—fashion, electronics, home, and more.</p>
           </div>
@@ -309,7 +321,10 @@ function Home() {
       <section className="w-full py-12 px-4 bg-white">
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
           <div className="bg-slate-100 rounded-xl shadow p-8 flex flex-col items-center">
-            <img src="/bankers.jpg" alt="Bankers Corner" className="h-128 w-128 max-h-[512px] max-w-[512px] mb-6 object-contain rounded-xl bg-blue-50" />
+            <picture>
+              <source srcSet="/bankers-optimized.jpg" type="image/jpeg" />
+              <img src="/bankers.jpg" alt="Bankers Corner" className="h-128 w-128 max-h-[512px] max-w-[512px] mb-6 object-contain rounded-xl bg-blue-50" loading="lazy" width="512" height="512" />
+            </picture>
             <h3 className="font-bold text-2xl mb-4 text-center text-blue-700">Bankers Corner</h3>
             <Link 
               to="/calculators" 
@@ -320,7 +335,10 @@ function Home() {
             </Link>
           </div>
           <div className="bg-slate-100 rounded-xl shadow p-8 flex flex-col items-center">
-            <img src="/customers.png" alt="Customer Corner" className="h-128 w-128 max-h-[512px] max-w-[512px] mb-6 object-contain rounded-xl bg-green-50" />
+            <picture>
+              <source srcSet="/customers.webp" type="image/webp" />
+              <img src="/customers.png" alt="Customer Corner" className="h-128 w-128 max-h-[512px] max-w-[512px] mb-6 object-contain rounded-xl bg-green-50" loading="lazy" width="512" height="512" />
+            </picture>
             <h3 className="font-bold text-2xl mb-4 text-center text-green-700">Customer Corner</h3>
             <Link to="/coming-soon" className="mt-4 inline-block px-8 py-3 bg-green-700 text-white font-semibold rounded-lg shadow hover:bg-green-800 transition-colors text-lg">Explore Customers</Link>
           </div>

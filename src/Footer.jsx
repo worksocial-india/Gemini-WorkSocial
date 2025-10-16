@@ -94,7 +94,10 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <img src="/Logo-worksocialindia.png" alt="WorkSocial India" className="h-10" />
+              <picture>
+                <source srcSet="/Logo-worksocialindia.webp" type="image/webp" />
+                <img src="/Logo-worksocialindia.png" alt="WorkSocial India" className="h-10" width="200" height="40" />
+              </picture>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed">
               Your trusted financial partner providing expert guidance on loans, investments, 
