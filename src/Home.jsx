@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { 
   ArrowRight, Sparkles, TrendingUp, Shield, Zap, 
@@ -11,14 +10,10 @@ import { trackButtonClick } from './hooks/useGoogleAnalytics';
 import { usePageTitle } from './hooks/usePageTitle';
 
 // Feature Card Component for Hero Grid
-function FeatureCard({ icon: Icon, title, description, bgColor, delay = 0 }) {
+function FeatureCard({ icon: Icon, title, description, bgColor }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 + delay * 0.1, duration: 0.5 }}
-      whileHover={{ y: -5, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
-      className={`${bgColor} rounded-2xl p-5 shadow-lg border border-white/20 backdrop-blur-sm h-full flex flex-col justify-between transition-all duration-300`}
+    <div
+      className={`${bgColor} rounded-2xl p-5 shadow-lg border border-white/20 backdrop-blur-sm h-full flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl`}
     >
       <div>
         <div className="bg-white/20 rounded-full p-3 w-12 h-12 flex items-center justify-center mb-4">
@@ -27,7 +22,7 @@ function FeatureCard({ icon: Icon, title, description, bgColor, delay = 0 }) {
         <h3 className="text-white font-bold text-lg mb-2">{title}</h3>
         <p className="text-white/80 text-sm">{description}</p>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
