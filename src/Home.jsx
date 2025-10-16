@@ -100,16 +100,16 @@ function Hero() {
   ];
 
   return (
-    <section className="hero-section-tailwind min-h-screen -mt-16 relative overflow-hidden py-20">
-      {/* Animated background particles */}
+    <section className="hero-section-tailwind min-h-screen -mt-16 relative overflow-hidden py-20 bg-white">
+      {/* Subtle background pattern */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute top-40 left-40 w-80 h-80 bg-yellow-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-50 rounded-full mix-blend-multiply filter blur-xl opacity-50"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-50 rounded-full mix-blend-multiply filter blur-xl opacity-50"></div>
+        <div className="absolute top-40 left-40 w-80 h-80 bg-yellow-50 rounded-full mix-blend-multiply filter blur-xl opacity-50"></div>
       </div>
 
-      {/* Enhanced overlay with gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/30 to-purple-900/20 z-10"></div>
+      {/* Light overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 via-white/30 to-blue-50/30 z-10"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20 pt-16 md:pt-24">
         {/* Hero Header Section */}
@@ -120,11 +120,11 @@ function Hero() {
           className="text-center mb-12"
         >
           {/* Badge */}
-          <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500/30 to-purple-600/30 backdrop-blur-sm border border-white/30 rounded-full text-sm font-medium text-white shadow-lg mb-4">
-            <Sparkles className="w-4 h-4 mr-2 text-yellow-400" />
+          <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-600/10 backdrop-blur-sm border border-blue-200 rounded-full text-sm font-medium text-gray-800 shadow-sm mb-4">
+            <Sparkles className="w-4 h-4 mr-2 text-yellow-600" />
             <span>Backed By Bankers</span>
             <motion.div 
-              className="ml-2 w-2 h-2 bg-green-400 rounded-full"
+              className="ml-2 w-2 h-2 bg-green-500 rounded-full"
               animate={{ scale: [1, 1.5, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
@@ -132,7 +132,7 @@ function Hero() {
           
           {/* Main Headline */}
           <motion.h1 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight md:leading-none mb-4 main-heading-gradient"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 leading-tight md:leading-none mb-4 main-heading-gradient"
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.7 }}
@@ -142,7 +142,7 @@ function Hero() {
 
           {/* Subtitle */}
           <motion.p 
-            className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-400 to-teal-600 bg-clip-text text-transparent mb-8"
+            className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-700 bg-clip-text text-transparent mb-8"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.7 }}
@@ -233,7 +233,7 @@ function Hero() {
 
       {/* Scroll indicator */}
       <motion.div 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-white/70 z-30"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-gray-600 z-30"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5, duration: 0.8 }}
