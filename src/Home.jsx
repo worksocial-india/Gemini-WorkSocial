@@ -287,9 +287,12 @@ function Home() {
               <TrendingUp className="w-4 h-4 mr-2" />
               <span>Financial Excellence</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
-              Your Trusted Financial Partner
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4 leading-tight">
+              One Platform
             </h2>
+            <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-700 bg-clip-text text-transparent mb-6">
+              Endless Possibilities
+            </p>
             <p className="text-lg text-gray-700 mb-6 leading-relaxed">
               Expert guidance on loans, investments, insurance, and comprehensive financial planning solutions. Backed by experienced bankers who understand your needs.
             </p>
