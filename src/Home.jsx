@@ -273,6 +273,102 @@ function Home() {
   
   return (
     <div>
+      {/* New Two-Column Section Above Hero */}
+      <section className="w-full py-16 px-4 bg-gradient-to-r from-blue-50 to-purple-50 -mt-16 pt-24">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+          {/* Left Column */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            className="flex flex-col justify-center"
+          >
+            <div className="inline-flex items-center px-4 py-2 bg-blue-100 border border-blue-200 rounded-full text-sm font-medium text-blue-800 shadow-sm mb-4 w-fit">
+              <TrendingUp className="w-4 h-4 mr-2" />
+              <span>Financial Excellence</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
+              Your Trusted Financial Partner
+            </h2>
+            <p className="text-lg text-gray-700 mb-6 leading-relaxed">
+              Expert guidance on loans, investments, insurance, and comprehensive financial planning solutions. Backed by experienced bankers who understand your needs.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                to="/calculators"
+                onClick={() => trackButtonClick('get_started_top', 'home_top_section')}
+                className="inline-flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <Calculator className="w-5 h-5 mr-2" />
+                Get Started
+              </Link>
+              <Link
+                to="/services"
+                onClick={() => trackButtonClick('learn_more_top', 'home_top_section')}
+                className="inline-flex items-center justify-center bg-white text-blue-700 font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-blue-200"
+              >
+                Learn More
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Link>
+            </div>
+          </motion.div>
+
+          {/* Right Column */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="relative"
+          >
+            <div className="grid grid-cols-2 gap-4">
+              <motion.div
+                whileHover={{ scale: 1.05, rotate: 2 }}
+                className="bg-white rounded-2xl p-6 shadow-xl"
+              >
+                <div className="bg-blue-100 rounded-full p-4 w-16 h-16 flex items-center justify-center mb-4">
+                  <Shield className="w-8 h-8 text-blue-600" />
+                </div>
+                <h4 className="font-bold text-lg text-gray-900 mb-2">Secure & Trusted</h4>
+                <p className="text-gray-600 text-sm">Bank-grade security for all your transactions</p>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.05, rotate: -2 }}
+                className="bg-white rounded-2xl p-6 shadow-xl mt-8"
+              >
+                <div className="bg-purple-100 rounded-full p-4 w-16 h-16 flex items-center justify-center mb-4">
+                  <Zap className="w-8 h-8 text-purple-600" />
+                </div>
+                <h4 className="font-bold text-lg text-gray-900 mb-2">Fast Processing</h4>
+                <p className="text-gray-600 text-sm">Quick approvals and instant results</p>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.05, rotate: -2 }}
+                className="bg-white rounded-2xl p-6 shadow-xl"
+              >
+                <div className="bg-green-100 rounded-full p-4 w-16 h-16 flex items-center justify-center mb-4">
+                  <Users className="w-8 h-8 text-green-600" />
+                </div>
+                <h4 className="font-bold text-lg text-gray-900 mb-2">Expert Support</h4>
+                <p className="text-gray-600 text-sm">Backed by experienced banking professionals</p>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.05, rotate: 2 }}
+                className="bg-white rounded-2xl p-6 shadow-xl mt-8"
+              >
+                <div className="bg-orange-100 rounded-full p-4 w-16 h-16 flex items-center justify-center mb-4">
+                  <Globe className="w-8 h-8 text-orange-600" />
+                </div>
+                <h4 className="font-bold text-lg text-gray-900 mb-2">24/7 Access</h4>
+                <p className="text-gray-600 text-sm">Manage your finances anytime, anywhere</p>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       <Hero />
       
       {/* New 4-column block below hero section */}
