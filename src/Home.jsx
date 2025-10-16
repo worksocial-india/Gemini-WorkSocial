@@ -4,11 +4,40 @@ import { Link } from 'react-router-dom';
 import { 
   ArrowRight, Sparkles, TrendingUp, Shield, Zap, 
   Calculator, CreditCard, Home as HomeIcon, Landmark, 
-  Briefcase, LineChart, Phone, Users, Globe
+  Briefcase, LineChart, Phone, Users, Globe, ChevronDown
 } from 'lucide-react';
 import ZohoForm from './components/ZohoForm';
 import { trackButtonClick } from './hooks/useGoogleAnalytics';
 import { usePageTitle } from './hooks/usePageTitle';
+
+// Scroll Button Component
+function ScrollButton({ targetId }) {
+  const handleScroll = () => {
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  return (
+    <motion.button
+      onClick={handleScroll}
+      className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg hover:shadow-xl rounded-full p-3 transition-all duration-300 group"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5, duration: 0.7 }}
+      whileHover={{ scale: 1.1 }}
+      aria-label="Scroll to next section"
+    >
+      <motion.div
+        animate={{ y: [0, 5, 0] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
+      >
+        <ChevronDown className="w-6 h-6 text-blue-600 group-hover:text-blue-700" />
+      </motion.div>
+    </motion.button>
+  );
+}
 
 // Feature Card Component for Hero Grid
 function FeatureCard({ icon: Icon, title, description, bgColor }) {
@@ -101,7 +130,7 @@ function Hero() {
   ];
 
   return (
-    <section className="hero-section-tailwind min-h-screen relative overflow-hidden flex items-center bg-white">
+    <section id="hero-section" className="hero-section-tailwind min-h-screen relative overflow-hidden flex items-center bg-white">
       {/* Subtle background pattern */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-50 rounded-full mix-blend-multiply filter blur-xl opacity-50"></div>
@@ -193,37 +222,8 @@ function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-gray-600 z-30"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5, duration: 0.8 }}
-      >
-        <motion.p 
-          className="text-sm font-medium mb-2"
-          animate={{ y: [0, 5, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          Scroll to explore
-        </motion.p>
-        <motion.svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          width="24" 
-          height="24" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth="2" 
-          strokeLinecap="round" 
-          strokeLinejoin="round"
-          animate={{ y: [0, 5, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-        >
-          <polyline points="7 13 12 18 17 13"></polyline>
-          <polyline points="7 6 12 11 17 6"></polyline>
-        </motion.svg>
-      </motion.div>
+      {/* Scroll Button */}
+      <ScrollButton targetId="services-section" />
     </section>
   );
 }
@@ -331,12 +331,15 @@ function Home() {
             </div>
           </motion.div>
         </div>
+        
+        {/* Scroll Button */}
+        <ScrollButton targetId="hero-section" />
       </section>
 
       <Hero />
       
       {/* New 4-column block below hero section */}
-      <section className="w-full py-12 px-4 bg-slate-50">
+      <section id="services-section" className="w-full py-12 px-4 bg-slate-50 relative">
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           <div className="bg-white rounded-xl shadow p-6 flex flex-col items-center">
             <picture>
@@ -371,10 +374,13 @@ function Home() {
             <p className="text-gray-600 text-sm text-center">Curated deals and products for every need—fashion, electronics, home, and more.</p>
           </div>
         </div>
+        
+        {/* Scroll Button */}
+        <ScrollButton targetId="bankers-section" />
       </section>
 
       {/* Updated 2-column block below the 4-column block */}
-      <section className="w-full py-12 px-4 bg-white">
+      <section id="bankers-section" className="w-full py-12 px-4 bg-white relative">
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
           <div className="bg-slate-100 rounded-xl shadow p-8 flex flex-col items-center">
             <picture>
@@ -399,6 +405,9 @@ function Home() {
             <Link to="/coming-soon" className="mt-4 inline-block px-8 py-3 bg-green-700 text-white font-semibold rounded-lg shadow hover:bg-green-800 transition-colors text-lg">Explore Customers</Link>
           </div>
         </div>
+        
+        {/* Scroll Button */}
+        <ScrollButton targetId="contact-section" />
       </section>
       
       <ZohoForm />

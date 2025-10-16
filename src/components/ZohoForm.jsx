@@ -371,7 +371,7 @@ const ZohoForm = () => {
   }, []);
 
   return (
-    <>
+    <div id="contact-section">
       {/* Hidden button for manual form trigger */}
       <button 
         id="zf_button_390340" 
@@ -380,7 +380,7 @@ const ZohoForm = () => {
       >
         Form
       </button>
-    </>
+    </div>
   );
 };
 
