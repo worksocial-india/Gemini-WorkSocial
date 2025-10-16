@@ -101,7 +101,7 @@ function Hero() {
   ];
 
   return (
-    <section className="hero-section-tailwind min-h-screen -mt-16 relative overflow-hidden py-20 bg-white">
+    <section className="hero-section-tailwind min-h-screen relative overflow-hidden flex items-center bg-white">
       {/* Subtle background pattern */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-50 rounded-full mix-blend-multiply filter blur-xl opacity-50"></div>
@@ -112,46 +112,7 @@ function Hero() {
       {/* Light overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 via-white/30 to-blue-50/30 z-10"></div>
       
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20 pt-16 md:pt-24">
-        {/* Hero Header Section */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-12"
-        >
-          {/* Badge */}
-          <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-600/10 backdrop-blur-sm border border-blue-200 rounded-full text-sm font-medium text-gray-800 shadow-sm mb-4">
-            <Sparkles className="w-4 h-4 mr-2 text-yellow-600" />
-            <span>Backed By Bankers</span>
-            <motion.div 
-              className="ml-2 w-2 h-2 bg-green-500 rounded-full"
-              animate={{ scale: [1, 1.5, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          </div>
-          
-          {/* Main Headline */}
-          <motion.h1 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 leading-tight md:leading-none mb-4 main-heading-gradient"
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.7 }}
-          >
-            One Platform
-          </motion.h1>
-
-          {/* Subtitle */}
-          <motion.p 
-            className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-700 bg-clip-text text-transparent mb-8"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.7 }}
-          >
-            Endless Possibilities
-          </motion.p>
-        </motion.div>
-
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20 py-8">
         {/* 3x3 Grid Layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto">
           {/* First Row */}
@@ -274,8 +235,8 @@ function Home() {
   return (
     <div>
       {/* New Two-Column Section Above Hero */}
-      <section className="w-full py-16 px-4 bg-gradient-to-r from-blue-50 to-purple-50 -mt-16 pt-24">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+      <section className="w-full min-h-screen flex items-center px-4 bg-gradient-to-r from-blue-50 to-purple-50 -mt-16 pt-24">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 w-full">
           {/* Left Column */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
