@@ -1,24 +1,25 @@
 # Google Search Console Setup Guide
 
-## Step 1: Verify Your Website
+## ✅ Site Ownership Already Verified via Google Analytics
+
+Your site is already verified through Google Analytics integration. You can skip the manual verification step!
+
+## Step 1: Access Google Search Console
 
 1. Go to [Google Search Console](https://search.google.com/search-console)
-2. Click "Start now" and sign in with your Google account
-3. Click "Add Property" in the top left
-4. Enter your website URL: `https://worksocial.in`
-5. Choose verification method: **HTML tag**
-6. Copy the verification code (looks like: `abcdefgh1234567890`)
-7. Update `index.html` with your verification code
-8. Deploy the changes
-9. Go back to Search Console and click "Verify"
+2. Sign in with the same Google account used for Google Analytics
+3. Your property `worksocial.in` should already be listed
+4. If not, add it - verification will be automatic via Google Analytics
 
-## Step 2: Submit Your Sitemap
+## Step 2: Submit Your Sitemap (DO THIS NOW!)
 
-After verification:
+After accessing your property:
 1. In Search Console, go to "Sitemaps" (left sidebar)
 2. Enter: `sitemap.xml`
 3. Click "Submit"
 4. Wait for Google to process (can take a few hours to days)
+
+**Your Sitemap URL:** `https://worksocial.in/sitemap.xml`
 
 ## Step 3: Request Indexing for Key Pages
 
